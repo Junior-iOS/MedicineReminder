@@ -10,6 +10,7 @@ import UIKit
 final class LoginBottomSheetViewController: UIViewController {
     
     private let loginBottomSheetView = LoginBottomSheetView()
+    private let viewModel = LoginBottomSheetViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,7 @@ final class LoginBottomSheetViewController: UIViewController {
     private func setupUI() {
         self.view.addSubview(loginBottomSheetView)
         loginBottomSheetView.translatesAutoresizingMaskIntoConstraints = false
+        loginBottomSheetView.delegate = self
         setupConstraints()
     }
     
@@ -51,5 +53,11 @@ final class LoginBottomSheetViewController: UIViewController {
         }) { _ in
             completion?()
         }
+    }
+}
+
+extension LoginBottomSheetViewController: LoginBottomSheetViewDelegate {
+    func sendLoginData(user: String, password: String) {
+        viewModel.authenticate(user: user, password: password)
     }
 }

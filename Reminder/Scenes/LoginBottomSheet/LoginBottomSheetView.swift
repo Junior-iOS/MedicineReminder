@@ -8,7 +8,12 @@
 import Foundation
 import UIKit
 
+protocol LoginBottomSheetViewDelegate: AnyObject {
+    func sendLoginData(user: String, password: String)
+}
+
 final class LoginBottomSheetView: UIView {
+    public weak var delegate: LoginBottomSheetViewDelegate?
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -37,6 +42,10 @@ final class LoginBottomSheetView: UIView {
         let textField = UITextField()
         textField.placeholder = "EMAIL_PLACEHOLDER".localized
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
+        textField.autocorrectionType = .no
+        textField.keyboardType = .emailAddress
+        textField.textContentType = .emailAddress
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -92,6 +101,7 @@ final class LoginBottomSheetView: UIView {
         button.backgroundColor = Colors.primaryRedBase
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = Metrics.medium
+        button.addTarget(self, action: #selector(handleLoginButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -138,4 +148,13 @@ final class LoginBottomSheetView: UIView {
             loginButton.heightAnchor.constraint(equalToConstant: Metrics.buttonSize)
         ])
     }
+    
+    @objc private func handleLoginButton() {
+        guard let user = emailTextField.text, !user.isEmpty, let password = passwordTextField.text, !password.isEmpty else {
+            print("SHOW ALERT!!!!")
+            return
+        }
+        delegate?.sendLoginData(user: user.lowercased(), password: password)
+    }
 }
+
