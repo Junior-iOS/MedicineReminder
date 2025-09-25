@@ -1,0 +1,22 @@
+/* 
+  Localizable.strings
+  Reminder
+
+  Created by NJ Development on 25/09/25.
+  
+*/
+
+/* MARK: - LOGIN SCREEN */
+
+"WELCOME_TITLE" = "Entre para acessar suas receitas";
+"EMAIL_TITLE" = "Email";
+"EMAIL_PLACEHOLDER" = "email@exemplo.com";
+"PASSWORD_TITLE" = "Senha";
+"PASSWORD_PLACEHOLDER" = "senha";
+"BUTTON_TITLE" = "Entrar";
+
+/* MARK: - HOME SCREEN */
+
+/* MARK: - RECEIPT SCREEN */
+
+/* MARK: - NEW RECEIPT SCREEN */
