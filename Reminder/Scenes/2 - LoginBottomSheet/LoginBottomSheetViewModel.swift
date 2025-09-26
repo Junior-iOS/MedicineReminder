@@ -16,6 +16,7 @@ protocol LoginbottomSheetViewModelProtocol {
 final class LoginBottomSheetViewModel: LoginbottomSheetViewModelProtocol {
     
     var successResult: ((String) -> Void)?
+    var errorResult: ((String) -> Void)?
     
     func authenticate(user: String, password: String) {
         if isValidEmail(user) {
@@ -23,6 +24,7 @@ final class LoginBottomSheetViewModel: LoginbottomSheetViewModelProtocol {
             Auth.auth().signIn(withEmail: user, password: password) { (authResult: AuthDataResult?, error: Error?) in
                 if let error = error {
                     print("Authentication failed: \(error.localizedDescription)")
+                    self.errorResult?(error.localizedDescription)
                 } else {
                     self.successResult?(user)
                     print("User authenticated successfully")

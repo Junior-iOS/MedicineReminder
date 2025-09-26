@@ -29,8 +29,7 @@ final class Coordinator {
 extension Coordinator: LoginBottomSheetFlowDelegate {
     func navigateToHome() {
         self.navigationController?.dismiss(animated: true)
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .systemBlue
+        let viewController = HomeViewController(view: HomeView(), delegate: self)
         navigationController?.pushViewController(viewController, animated: false)
     }
 }

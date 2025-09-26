@@ -10,9 +10,8 @@ import UIKit
 final class SplashView: UIView {
     
     private lazy var logoView: UIImageView = {
-        let imageView = UIImageView()
+        let imageView = UIImageView(icon: .crossCaseCircleFill)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(icon: .crossCaseCircleFill)
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = .white
         return imageView
