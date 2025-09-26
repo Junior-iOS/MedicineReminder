@@ -11,13 +11,15 @@ import UIKit
 final class Coordinator {
     // MARK: - Properties
     private var navigationController: UINavigationController?
+    private let viewControllerFactory: ViewControllersFactory
     
     // MARK: - Init
     init() {
+        self.viewControllerFactory = ViewControllersFactory()
     }
     
     func start() -> UINavigationController {
-        let splashVC = SplashViewController(delegate: self)
+        let splashVC = viewControllerFactory.makeSplashViewController(flowDelegate: self)
         navigationController = UINavigationController(rootViewController: splashVC)
         return navigationController ?? UINavigationController()
     }
@@ -29,14 +31,14 @@ extension Coordinator: LoginBottomSheetFlowDelegate {
         self.navigationController?.dismiss(animated: true)
         let viewController = UIViewController()
         viewController.view.backgroundColor = .systemBlue
-        navigationController?.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: false)
     }
 }
 
 // MARK: - SPLASH
 extension Coordinator: SplashFlowDelegate {
     func navigateToLogin() {
-        let loginBottomSheet = LoginBottomSheetViewController(delegate: self)
+        let loginBottomSheet = viewControllerFactory.makeLoginBottomSheetViewController(flowDelegate: self)
         loginBottomSheet.modalPresentationStyle = .overCurrentContext
         loginBottomSheet.modalTransitionStyle = .crossDissolve
         self.navigationController?.present(loginBottomSheet, animated: false) {

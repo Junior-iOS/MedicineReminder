@@ -13,7 +13,7 @@ protocol LoginBottomSheetFlowDelegate: AnyObject {
 
 final class LoginBottomSheetViewController: UIViewController {
     
-    private let loginBottomSheetView = LoginBottomSheetView()
+    private let loginBottomSheetView: LoginBottomSheetView
     private let viewModel = LoginBottomSheetViewModel()
     public weak var delegate: LoginBottomSheetFlowDelegate?
 
@@ -24,7 +24,8 @@ final class LoginBottomSheetViewController: UIViewController {
         bindViewModel()
     }
     
-    init(delegate: LoginBottomSheetFlowDelegate) {
+    init(view: LoginBottomSheetView, delegate: LoginBottomSheetFlowDelegate) {
+        self.loginBottomSheetView = view
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
@@ -50,9 +51,26 @@ final class LoginBottomSheetViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.successResult = { [weak self] in
-            self?.delegate?.navigateToHome()
+        viewModel.successResult = { [weak self] user in
+            self?.presentSavedLoginAlert(user: user)
         }
+    }
+    
+    private func presentSavedLoginAlert(user: String) {
+        let alert = UIAlertController(title: "Salvar Acesso", message: "Deseja salvar seu acesso?", preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: "Salvar", style: .default) { _ in
+            let user = User(email: user, isUserLoggedIn: true)
+            UserDefaultsManager.shared.save(user)
+            self.delegate?.navigateToHome()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel) { _ in
+            self.delegate?.navigateToHome()
+        }
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func setupGesture() {

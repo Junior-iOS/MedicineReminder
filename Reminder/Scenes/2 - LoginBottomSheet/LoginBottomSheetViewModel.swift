@@ -10,12 +10,12 @@ import FirebaseAuth
 
 protocol LoginbottomSheetViewModelProtocol {
     func authenticate(user: String, password: String)
-    var successResult: (() -> Void)? { get set }
+    var successResult: ((String) -> Void)? { get set }
 }
 
 final class LoginBottomSheetViewModel: LoginbottomSheetViewModelProtocol {
     
-    var successResult: (() -> Void)?
+    var successResult: ((String) -> Void)?
     
     func authenticate(user: String, password: String) {
         if isValidEmail(user) {
@@ -24,7 +24,7 @@ final class LoginBottomSheetViewModel: LoginbottomSheetViewModelProtocol {
                 if let error = error {
                     print("Authentication failed: \(error.localizedDescription)")
                 } else {
-                    self.successResult?()
+                    self.successResult?(user)
                     print("User authenticated successfully")
                 }
             }

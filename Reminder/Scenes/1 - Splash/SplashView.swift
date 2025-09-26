@@ -28,7 +28,7 @@ final class SplashView: UIView {
         return label
     }()
     
-    private lazy var stackView: UIStackView = {
+    private(set) lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [logoView, titleLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
