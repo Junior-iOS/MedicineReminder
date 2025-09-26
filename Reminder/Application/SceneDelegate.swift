@@ -10,13 +10,18 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var coordinator: Coordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = UINavigationController(rootViewController: SplashViewController())
-        window?.makeKeyAndVisible()
+        
+        let window = UIWindow(windowScene: windowScene)
+        coordinator = Coordinator()
+        
+        let rootViewController = coordinator?.start()
+        window.rootViewController = rootViewController
+        self.window = window
+        window.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

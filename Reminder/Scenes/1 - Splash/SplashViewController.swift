@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol SplashFlowDelegate: AnyObject {
+    func navigateToLogin()
+}
+
 final class SplashViewController: UIViewController {
     
     private let splashView = SplashView()
+    public weak var splashDelegate: SplashFlowDelegate?
         
     override func loadView() {
         view = splashView
@@ -21,6 +26,14 @@ final class SplashViewController: UIViewController {
         setupGesture()
     }
     
+    init(delegate: SplashFlowDelegate) {
+        self.splashDelegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) { nil }
+    
     private func setup() {
         navigationController?.navigationBar.isHidden = true
     }
@@ -31,11 +44,6 @@ final class SplashViewController: UIViewController {
     }
 
     @objc private func showLoginBottomSheet() {
-        let loginBottomSheet = LoginBottomSheetViewController()
-        loginBottomSheet.modalPresentationStyle = .overCurrentContext
-        loginBottomSheet.modalTransitionStyle = .crossDissolve
-        self.present(loginBottomSheet, animated: false) {
-            loginBottomSheet.animateBottomSheet()
-        }
+        self.splashDelegate?.navigateToLogin()
     }
 }

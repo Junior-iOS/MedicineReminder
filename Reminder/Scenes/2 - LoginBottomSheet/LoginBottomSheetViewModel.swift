@@ -6,12 +6,28 @@
 //
 
 import Foundation
+import FirebaseAuth
 
-final class LoginBottomSheetViewModel {
+protocol LoginbottomSheetViewModelProtocol {
+    func authenticate(user: String, password: String)
+    var successResult: (() -> Void)? { get set }
+}
+
+final class LoginBottomSheetViewModel: LoginbottomSheetViewModelProtocol {
+    
+    var successResult: (() -> Void)?
     
     func authenticate(user: String, password: String) {
         if isValidEmail(user) {
             print("User: \(user) - Password: \(password)")
+            Auth.auth().signIn(withEmail: user, password: password) { (authResult: AuthDataResult?, error: Error?) in
+                if let error = error {
+                    print("Authentication failed: \(error.localizedDescription)")
+                } else {
+                    self.successResult?()
+                    print("User authenticated successfully")
+                }
+            }
         } else {
             print("Invalid email")
         }
