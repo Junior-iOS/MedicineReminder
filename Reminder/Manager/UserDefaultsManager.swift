@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import UIKit
 
 final class UserDefaultsManager {
     static let shared = UserDefaultsManager()
     private let defaults = UserDefaults.standard
     private enum Keys {
         static let user = "userKey"
+        static let userName = "userName"
+        static let profileImage = "profileImage"
     }
     
     func save(_ user: User) {
@@ -33,5 +36,32 @@ final class UserDefaultsManager {
             print("UserDefaultsManager.loadUser decode error:", error)
             return nil
         }
+    }
+    
+    func removeUser() {
+        defaults.removeObject(forKey: Keys.user)
+        defaults.removeObject(forKey: Keys.userName)
+        defaults.removeObject(forKey: Keys.profileImage)
+    }
+    
+    func saveUserName(_ name: String) {
+        defaults.set(name, forKey: Keys.userName)
+    }
+    
+    func loadUserName() -> String? {
+        return defaults.string(forKey: Keys.userName)
+    }
+    
+    func saveProfileImage(_ image: UIImage) {
+        if let imageData = image.jpegData(compressionQuality: 1.0) {
+            defaults.set(imageData, forKey: Keys.profileImage)
+        }
+    }
+    
+    func loadProfileImage() -> UIImage? {
+        guard let imageData = defaults.data(forKey: Keys.profileImage) else {
+            return UIImage(icon: .personCropCircleFill)
+        }
+        return UIImage(data: imageData)
     }
 }

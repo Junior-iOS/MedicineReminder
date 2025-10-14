@@ -45,3 +45,10 @@ extension Coordinator: SplashFlowDelegate {
         }
     }
 }
+
+extension Coordinator: HomeFlowDelegate {
+    func logout() {
+        self.navigationController?.popToRootViewController(animated: true)
+        navigateToLogin()
+    }
+}

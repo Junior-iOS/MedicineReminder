@@ -38,7 +38,7 @@ final class LoginBottomSheetView: UIView {
         return label
     }()
     
-    private lazy var emailTextField: UITextField = {
+    private(set) lazy var emailTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "EMAIL_PLACEHOLDER".localized
         textField.borderStyle = .roundedRect
@@ -46,6 +46,8 @@ final class LoginBottomSheetView: UIView {
         textField.autocorrectionType = .no
         textField.keyboardType = .emailAddress
         textField.textContentType = .emailAddress
+        textField.clearButtonMode = .whileEditing
+        textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -71,6 +73,9 @@ final class LoginBottomSheetView: UIView {
         textField.placeholder = "PASSWORD_PLACEHOLDER".localized
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
+        textField.clearButtonMode = .whileEditing
+        textField.delegate = self
+        textField.returnKeyType = .done
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -158,3 +163,9 @@ final class LoginBottomSheetView: UIView {
     }
 }
 
+extension LoginBottomSheetView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}

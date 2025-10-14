@@ -17,6 +17,10 @@
 
 /* MARK: - HOME SCREEN */
 
+"HOME_WELCOME_TITLE" = "Boas vindas";
+"HOME_FEEDBACK_BUTTON" = "Avaliar";
+"HOME_NAME_PLACEHOLDER" = "Insira seu nome";
+
 /* MARK: - RECEIPT SCREEN */
 
 /* MARK: - NEW RECEIPT SCREEN */

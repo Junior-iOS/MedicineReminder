@@ -11,6 +11,7 @@ import UIKit
 protocol ViewControllersFactoryProtocol {
     func makeSplashViewController(flowDelegate: SplashFlowDelegate) -> SplashViewController
     func makeLoginBottomSheetViewController(flowDelegate: LoginBottomSheetFlowDelegate) -> LoginBottomSheetViewController
+    func makeHomeViewController(flowDelegate: HomeFlowDelegate) -> HomeViewController
 }
 
 final class ViewControllersFactory: ViewControllersFactoryProtocol {
@@ -24,7 +25,7 @@ final class ViewControllersFactory: ViewControllersFactoryProtocol {
         return LoginBottomSheetViewController(view: loginBottomSheetView, delegate: flowDelegate)
     }
     
-    func makeHomeViewController(flowDelegate : LoginBottomSheetFlowDelegate) -> HomeViewController {
+    func makeHomeViewController(flowDelegate: HomeFlowDelegate) -> HomeViewController {
         let homeView = HomeView()
         return HomeViewController(view: homeView, delegate: flowDelegate)
     }
