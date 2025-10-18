@@ -76,6 +76,25 @@ final class HomeView: UIView {
         return button
     }()
     
+    private lazy var prescriptionCardView: CardView = {
+        let card = CardView(
+            icon: UIImage(icon: .newsPaper),
+            title: "Minhas receitas",
+            description: "Acompanhe os medicamentos e gerencie lembretes"
+        )
+        return card
+    }()
+    
+    private lazy var newPrescriptionCardView: CardView = {
+        let card = CardView(
+            icon: UIImage(icon: .pills),
+            title: "Nova receita",
+            description: "Cadastre novos lembretes de receitas"
+        )
+        card.tintColor = Colors.primaryRedBase
+        return card
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -88,7 +107,7 @@ final class HomeView: UIView {
         backgroundColor = Colors.gray600
         addSubviews(profileBackground, contentBackground)
         profileBackground.addSubviews(profileImageView, welcomeLabel, nameTextField)
-        contentBackground.addSubview(feedbackButton)
+        contentBackground.addSubviews(feedbackButton, prescriptionCardView, newPrescriptionCardView)
         
         setupConstraints()
         setupImageTapGesture()
@@ -121,7 +140,17 @@ final class HomeView: UIView {
             feedbackButton.bottomAnchor.constraint(equalTo: contentBackground.safeAreaLayoutGuide.bottomAnchor, constant: -Metrics.medium),
             feedbackButton.leadingAnchor.constraint(equalTo: contentBackground.leadingAnchor, constant: Metrics.medium),
             feedbackButton.trailingAnchor.constraint(equalTo: contentBackground.trailingAnchor, constant: -Metrics.medium),
-            feedbackButton.heightAnchor.constraint(equalToConstant: Metrics.buttonSize)
+            feedbackButton.heightAnchor.constraint(equalToConstant: Metrics.buttonSize),
+            
+            prescriptionCardView.topAnchor.constraint(equalTo: contentBackground.topAnchor, constant: Metrics.huge),
+            prescriptionCardView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.medium),
+            prescriptionCardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.medium),
+            prescriptionCardView.heightAnchor.constraint(equalToConstant: 100),
+            
+            newPrescriptionCardView.topAnchor.constraint(equalTo: prescriptionCardView.bottomAnchor, constant: Metrics.large),
+            newPrescriptionCardView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.medium),
+            newPrescriptionCardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.medium),
+            newPrescriptionCardView.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
     

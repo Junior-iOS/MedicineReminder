@@ -27,4 +27,7 @@ public enum Icon: String {
     case crossCaseCircleFill = "cross.case.circle.fill"
     case personCropCircleFill = "person.crop.circle.fill"
     case rectanglePortraitAndArrowRight = "rectangle.portrait.and.arrow.right"
+    case chevronRight = "chevron.right"
+    case newsPaper = "newspaper"
+    case pills = "pills"
 }
