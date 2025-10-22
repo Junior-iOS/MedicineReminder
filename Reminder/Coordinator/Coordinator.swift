@@ -20,7 +20,7 @@ final class Coordinator {
     
     func start() -> UINavigationController {
         let splashVC = viewControllerFactory.makeSplashViewController(flowDelegate: self)
-        navigationController = UINavigationController(rootViewController: splashVC)
+        navigationController = UINavigationController(rootViewController: NewPrescriptionViewController())
         return navigationController ?? UINavigationController()
     }
 }

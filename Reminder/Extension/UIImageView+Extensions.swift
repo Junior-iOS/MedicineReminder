@@ -30,4 +30,6 @@ public enum Icon: String {
     case chevronRight = "chevron.right"
     case newsPaper = "newspaper"
     case pills = "pills"
+    case arrowLeft = "arrow.left"
+    case square = "square"
 }
