@@ -20,7 +20,7 @@ final class Coordinator {
     
     func start() -> UINavigationController {
         let splashVC = viewControllerFactory.makeSplashViewController(flowDelegate: self)
-        navigationController = UINavigationController(rootViewController: NewPrescriptionViewController())
+        navigationController = UINavigationController(rootViewController: splashVC)
         return navigationController ?? UINavigationController()
     }
 }
@@ -50,5 +50,11 @@ extension Coordinator: HomeFlowDelegate {
     func logout() {
         self.navigationController?.popToRootViewController(animated: true)
         navigateToLogin()
+    }
+    
+    func navigateToNewPrescriptions() {
+        let prescriptionViewController = viewControllerFactory.makePrescriptionViewController()
+        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.pushViewController(prescriptionViewController, animated: true)
     }
 }

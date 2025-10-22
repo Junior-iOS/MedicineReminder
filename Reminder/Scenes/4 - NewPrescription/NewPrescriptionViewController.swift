@@ -18,6 +18,15 @@ class NewPrescriptionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+        setupBackButton()
+    }
+    
+    private func setupBackButton() {
+        prescriptionView.backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+    }
+    
+    @objc private func didTapBackButton() {
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.popViewController(animated: true)
     }
 }

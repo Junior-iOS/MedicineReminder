@@ -85,7 +85,7 @@ final class HomeView: UIView {
         return card
     }()
     
-    private lazy var newPrescriptionCardView: CardView = {
+    private(set) lazy var newPrescriptionCardView: CardView = {
         let card = CardView(
             icon: UIImage(icon: .pills),
             title: "Nova receita",

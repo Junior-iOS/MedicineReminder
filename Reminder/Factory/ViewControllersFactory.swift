@@ -12,6 +12,7 @@ protocol ViewControllersFactoryProtocol {
     func makeSplashViewController(flowDelegate: SplashFlowDelegate) -> SplashViewController
     func makeLoginBottomSheetViewController(flowDelegate: LoginBottomSheetFlowDelegate) -> LoginBottomSheetViewController
     func makeHomeViewController(flowDelegate: HomeFlowDelegate) -> HomeViewController
+    func makePrescriptionViewController() -> NewPrescriptionViewController
 }
 
 final class ViewControllersFactory: ViewControllersFactoryProtocol {
@@ -28,6 +29,10 @@ final class ViewControllersFactory: ViewControllersFactoryProtocol {
     func makeHomeViewController(flowDelegate: HomeFlowDelegate) -> HomeViewController {
         let homeView = HomeView()
         return HomeViewController(view: homeView, delegate: flowDelegate)
+    }
+    
+    func makePrescriptionViewController() -> NewPrescriptionViewController {
+        return NewPrescriptionViewController()
     }
 }
 

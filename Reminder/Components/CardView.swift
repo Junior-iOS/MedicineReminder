@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 
 final class CardView: UIView {
+    var tapAction: (() -> Void)?
+    
     private let iconView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -55,6 +57,7 @@ final class CardView: UIView {
         setupView()
         configureUI(icon: icon, title: title, description: description)
         setupUI()
+        setupGesture()
     }
     
     @available(*, unavailable)
@@ -102,5 +105,15 @@ final class CardView: UIView {
             arrowImageView.widthAnchor.constraint(equalToConstant: 16),
             arrowImageView.heightAnchor.constraint(equalToConstant: 16)
         ])
+    }
+    
+    private func setupGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        addGestureRecognizer(tap)
+        isUserInteractionEnabled = true
+    }
+    
+    @objc private func handleTap() {
+        tapAction?()
     }
 }

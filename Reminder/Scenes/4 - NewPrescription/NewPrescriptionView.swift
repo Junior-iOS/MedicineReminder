@@ -9,7 +9,7 @@ import UIKit
 
 final class NewPrescriptionView: UIView {
     
-    private lazy var backButton: UIButton = {
+    private(set) lazy var backButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(icon: .arrowLeft), for: .normal)

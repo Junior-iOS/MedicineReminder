@@ -9,6 +9,7 @@ import UIKit
 
 protocol HomeFlowDelegate: AnyObject {
     func logout()
+    func navigateToNewPrescriptions()
 }
 
 final class HomeViewController: UIViewController {
@@ -25,6 +26,7 @@ final class HomeViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         checkForExistingData()
+        setupNewPrescriptionAction()
     }
     
     init(view: HomeView, delegate: HomeFlowDelegate) {
@@ -71,11 +73,21 @@ final class HomeViewController: UIViewController {
             )
         }
     }
+    
+    private func setupNewPrescriptionAction() {
+        homeView.newPrescriptionCardView.tapAction = { [weak self] in
+            self?.didTapNewPrescription()
+        }
+    }
 }
 
 extension HomeViewController: HomeViewDelegate {
     func didTapProfileImage() {
         presentImagePicker()
+    }
+    
+    func didTapNewPrescription() {
+        homeDelegate?.navigateToNewPrescriptions()
     }
 }
 
