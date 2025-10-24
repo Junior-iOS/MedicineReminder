@@ -36,26 +36,15 @@ final class NewPrescriptionView: UIView {
         return label
     }()
     
-    private lazy var addButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("+ Adicionar", for: .normal)
-        button.titleLabel?.font = Typography.subHeading
-        button.backgroundColor = Colors.primaryRedBase
-        button.setTitleColor(Colors.gray800, for: .normal)
-        button.layer.cornerRadius = 12
-        return button
-    }()
-    
-    private lazy var medicineInput: InputView = {
+    private(set) lazy var medicineInput: InputView = {
         return InputView(title: "Remédio", placeholder: "Nome do remédio")
     }()
     
-    private lazy var timeInput: InputView = {
+    private(set) lazy var timeInput: InputView = {
         return InputView(title: "Horário", placeholder: "12:00")
     }()
     
-    private lazy var recurrenceInput: InputView = {
+    private(set) lazy var recurrenceInput: InputView = {
         return InputView(title: "Recorrência", placeholder: "Selecione")
     }()
     
@@ -69,6 +58,17 @@ final class NewPrescriptionView: UIView {
     
     private lazy var checkBox: CheckBoxView = {
         return CheckBoxView(title: "Tomar agora")
+    }()
+    
+    private(set) lazy var addButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("+ Adicionar", for: .normal)
+        button.titleLabel?.font = Typography.subHeading
+        button.backgroundColor = Colors.primaryRedBase
+        button.setTitleColor(Colors.gray800, for: .normal)
+        button.layer.cornerRadius = 12
+        return button
     }()
     
     override init(frame: CGRect) {
@@ -118,5 +118,11 @@ final class NewPrescriptionView: UIView {
             addButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Metrics.small),
             addButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    func clear() {
+        medicineInput.clear()
+        timeInput.clear()
+        recurrenceInput.clear()
     }
 }

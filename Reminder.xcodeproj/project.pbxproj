@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		141A5CEB2EAAE4B80096C3B5 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 141A5CEA2EAAE4B80096C3B5 /* SQLite */; };
 		142796D82E85FD9C00F5E678 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 142796D72E85FD9C00F5E678 /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				141A5CEB2EAAE4B80096C3B5 /* SQLite in Frameworks */,
 				142796D82E85FD9C00F5E678 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,6 +133,7 @@
 			name = Reminder;
 			packageProductDependencies = (
 				142796D72E85FD9C00F5E678 /* FirebaseAuth */,
+				141A5CEA2EAAE4B80096C3B5 /* SQLite */,
 			);
 			productName = Reminder;
 			productReference = 142795F32E858A8900F5E678 /* Reminder.app */;
@@ -216,6 +219,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				142796D62E85FD9C00F5E678 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				141A5CE92EAAE4B80096C3B5 /* XCRemoteSwiftPackageReference "SQLite.swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 142795F42E858A8900F5E678 /* Products */;
@@ -600,6 +604,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		141A5CE92EAAE4B80096C3B5 /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.15.4;
+			};
+		};
 		142796D62E85FD9C00F5E678 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -611,6 +623,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		141A5CEA2EAAE4B80096C3B5 /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 141A5CE92EAAE4B80096C3B5 /* XCRemoteSwiftPackageReference "SQLite.swift" */;
+			productName = SQLite;
+		};
 		142796D72E85FD9C00F5E678 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 142796D62E85FD9C00F5E678 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

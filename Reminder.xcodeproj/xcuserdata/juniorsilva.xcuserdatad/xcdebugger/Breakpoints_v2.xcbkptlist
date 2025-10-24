@@ -18,6 +18,36 @@
             endingLineNumber = "17"
             landmarkName = "userName"
             landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "AEC26BEA-53B6-4CA9-B109-BFFE7399F9E7 - 22cd0302792a3dc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Reminder.HomeViewModel.userName.getter : Swift.Optional&lt;Swift.String&gt;"
+                  moduleName = "Reminder.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juniorsilva/Developer/Projetos%20iOS/Reminder/Reminder/Scenes/3%20-%20Home/HomeViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17">
+               </Location>
+               <Location
+                  uuid = "AEC26BEA-53B6-4CA9-B109-BFFE7399F9E7 - 22cd0302792a3dc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Reminder.HomeViewModel.userName.getter : Swift.Optional&lt;Swift.String&gt;"
+                  moduleName = "Reminder.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juniorsilva/Developer/Projetos%20iOS/Reminder/Reminder/Scenes/3%20-%20Home/HomeViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -50,21 +80,51 @@
             endingLineNumber = "167"
             landmarkName = "didEndEditing()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "FF4D3296-18E0-46B7-9C3F-C72B06386CD4 - c5dac748e8c4aa7f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Reminder.HomeView.didEndEditing() -&gt; ()"
+                  moduleName = "Reminder.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juniorsilva/Developer/Projetos%20iOS/Reminder/Reminder/Scenes/3%20-%20Home/HomeView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "167"
+                  endingLineNumber = "167">
+               </Location>
+               <Location
+                  uuid = "FF4D3296-18E0-46B7-9C3F-C72B06386CD4 - c5dac748e8c4aa7f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Reminder.HomeView.didEndEditing() -&gt; ()"
+                  moduleName = "Reminder.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juniorsilva/Developer/Projetos%20iOS/Reminder/Reminder/Scenes/3%20-%20Home/HomeView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "167"
+                  endingLineNumber = "167">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "512A03A8-6605-494C-9182-DC3984B072DC"
+            uuid = "A8C42896-5593-44E2-BD49-3B4687274C13"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Reminder/Scenes/3 - Home/HomeViewController.swift"
+            filePath = "Reminder/DataBase/DBHelper.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
-            landmarkName = "checkForExistingData()"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "openDataBase()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

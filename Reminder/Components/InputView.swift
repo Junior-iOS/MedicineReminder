@@ -69,4 +69,8 @@ class InputView: UIView {
     public func getText() -> String {
         textField.text ?? ""
     }
+    
+    public func clear() {
+        textField.text = nil
+    }
 }
