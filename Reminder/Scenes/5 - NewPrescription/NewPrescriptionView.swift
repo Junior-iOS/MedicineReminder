@@ -56,6 +56,20 @@ final class NewPrescriptionView: UIView {
         return stackView
     }()
     
+    private(set) lazy var timePickerView: UIDatePicker = {
+        let pickerView = UIDatePicker()
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        pickerView.datePickerMode = .time
+        pickerView.preferredDatePickerStyle = .wheels
+        return pickerView
+    }()
+    
+    private lazy var recurrencePickerView: UIPickerView = {
+        let pickerView = UIPickerView()
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        return pickerView
+    }()
+    
     private lazy var checkBox: CheckBoxView = {
         return CheckBoxView(title: "Tomar agora")
     }()
@@ -70,6 +84,16 @@ final class NewPrescriptionView: UIView {
         button.layer.cornerRadius = 12
         return button
     }()
+    
+    private let recurrenceOptions: [String] = [
+        "De hora em hora",
+        "2 em 2 horas",
+        "4 em 4 horas",
+        "6 em 6 horas",
+        "8 em 8 horas",
+        "12 em 12 horas",
+        "Uma vez ao dia"
+    ]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -89,7 +113,11 @@ final class NewPrescriptionView: UIView {
             checkBox,
             addButton,
         )
+        setTimeInput()
+        setRecurrenceInput()
         setupConstraints()
+        setupObservers()
+        validateInputs()
     }
     
     private func setupConstraints() {
@@ -120,9 +148,95 @@ final class NewPrescriptionView: UIView {
         ])
     }
     
+    private func makeToolbar(doneAction: Selector) -> UIToolbar {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "done", style: .plain, target: self, action: doneAction)
+        doneButton.tintColor = Colors.gray100
+        
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolbar.setItems([flex, doneButton], animated: false)
+        
+        return toolbar
+    }
+    
+    private func setTimeInput() {
+        let doneAccessoryView = DoneAccessoryView()
+        doneAccessoryView.onDoneTapped = { [weak self] in
+            self?.didSelectTime()
+        }
+        timeInput.textField.inputView = timePickerView
+        timeInput.textField.inputAccessoryView = doneAccessoryView
+    }
+    
+    @objc private func didSelectTime() {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        timeInput.textField.text = formatter.string(from: timePickerView.date)
+        timeInput.textField.resignFirstResponder()
+        validateInputs()
+    }
+    
+    private func setRecurrenceInput() {
+        recurrencePickerView.delegate = self
+        recurrencePickerView.dataSource = self
+        
+        let doneAccessoryView = DoneAccessoryView()
+        doneAccessoryView.onDoneTapped = { [weak self] in
+            self?.didSelectRecurrence()
+        }
+
+        recurrenceInput.textField.inputView = recurrencePickerView
+        recurrenceInput.textField.inputAccessoryView = doneAccessoryView
+    }
+    
+    @objc private func didSelectRecurrence() {
+        let selectedRow = recurrencePickerView.selectedRow(inComponent: 0)
+        recurrenceInput.textField.text = recurrenceOptions[selectedRow]
+        recurrenceInput.textField.resignFirstResponder()
+        validateInputs()
+    }
+    
+    private func validateInputs() {
+        let isMedicineEmpty = medicineInput.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true
+        let isTimeEmpty = timeInput.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true
+        let isRecurrenceEmpty = recurrenceInput.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ?? true
+        
+        addButton.isEnabled = !isMedicineEmpty && !isTimeEmpty && !isRecurrenceEmpty
+        addButton.backgroundColor = addButton.isEnabled ? Colors.primaryRedBase : Colors.gray500
+    }
+    
+    private func setupObservers() {
+        medicineInput.textField.addTarget(self, action: #selector(inputDidChange), for: .editingChanged)
+        timeInput.textField.addTarget(self, action: #selector(inputDidChange), for: .editingChanged)
+        recurrenceInput.textField.addTarget(self, action: #selector(inputDidChange), for: .editingChanged)
+    }
+    
+    @objc private func inputDidChange() {
+        validateInputs()
+    }
+    
     func clear() {
         medicineInput.clear()
         timeInput.clear()
         recurrenceInput.clear()
+        validateInputs()
+    }
+}
+
+extension NewPrescriptionView: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        recurrenceOptions.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        recurrenceOptions[row]
     }
 }

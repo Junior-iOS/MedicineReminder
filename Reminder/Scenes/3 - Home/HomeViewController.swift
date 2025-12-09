@@ -9,6 +9,7 @@ import UIKit
 
 protocol HomeFlowDelegate: AnyObject {
     func logout()
+    func navigateToPrescriptions()
     func navigateToNewPrescriptions()
 }
 
@@ -75,6 +76,10 @@ final class HomeViewController: UIViewController {
     }
     
     private func setupNewPrescriptionAction() {
+        homeView.prescriptionCardView.tapAction = { [weak self] in
+            self?.didTapMyPrescriptions()
+        }
+        
         homeView.newPrescriptionCardView.tapAction = { [weak self] in
             self?.didTapNewPrescription()
         }
@@ -88,6 +93,10 @@ extension HomeViewController: HomeViewDelegate {
     
     func didTapNewPrescription() {
         homeDelegate?.navigateToNewPrescriptions()
+    }
+    
+    func didTapMyPrescriptions() {
+        homeDelegate?.navigateToPrescriptions()
     }
 }
 

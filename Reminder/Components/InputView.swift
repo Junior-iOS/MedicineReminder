@@ -17,7 +17,7 @@ class InputView: UIView {
         return label
     }()
     
-    private lazy var textField: UITextField = {
+    private(set) lazy var textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = Colors.gray800

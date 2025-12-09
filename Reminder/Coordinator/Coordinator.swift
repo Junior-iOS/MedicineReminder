@@ -11,11 +11,11 @@ import UIKit
 final class Coordinator {
     // MARK: - Properties
     private var navigationController: UINavigationController?
-    private let viewControllerFactory: ViewControllersFactory
+    private let viewControllerFactory: FactoryViewControllers
     
     // MARK: - Init
     init() {
-        self.viewControllerFactory = ViewControllersFactory()
+        self.viewControllerFactory = FactoryViewControllers()
     }
     
     func start() -> UINavigationController {
@@ -46,15 +46,29 @@ extension Coordinator: SplashFlowDelegate {
     }
 }
 
+// MARK: - HOME
 extension Coordinator: HomeFlowDelegate {
     func logout() {
         self.navigationController?.popToRootViewController(animated: true)
         navigateToLogin()
     }
     
-    func navigateToNewPrescriptions() {
-        let prescriptionViewController = viewControllerFactory.makePrescriptionViewController()
+    func navigateToPrescriptions() {
+        let myPrescriptionsViewController = viewControllerFactory.makePrescriptionViewController(flowDelegate: self)
         self.navigationController?.navigationBar.isHidden = true
-        self.navigationController?.pushViewController(prescriptionViewController, animated: true)
+        self.navigationController?.pushViewController(myPrescriptionsViewController, animated: true)
+    }
+    
+    func navigateToNewPrescriptions() {
+        let newPrescriptionViewController = viewControllerFactory.makeNewPrescriptionViewController()
+        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.pushViewController(newPrescriptionViewController, animated: true)
+    }
+}
+
+// MARK: - MY PRESCRIPTIONS
+extension Coordinator: PrescriptionsFlowDelegate {
+    func goToMyPrescriptions() {
+        
     }
 }

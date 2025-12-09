@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewPrescriptionViewController: UIViewController {
+final class NewPrescriptionViewController: UIViewController {
     private let prescriptionView = NewPrescriptionView()
     private let viewModel = NewPrescriptionViewModel()
     
@@ -18,10 +18,10 @@ class NewPrescriptionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupBackButton()
+        setupButtons()
     }
     
-    private func setupBackButton() {
+    private func setupButtons() {
         prescriptionView.backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         prescriptionView.addButton.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
     }
