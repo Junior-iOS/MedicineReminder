@@ -32,4 +32,7 @@ public enum Icon: String {
     case pills = "pills"
     case arrowLeft = "arrow.left"
     case square = "square"
+    case clock = "clock"
+    case `repeat` = "repeat"
+    case trash = "trash"
 }

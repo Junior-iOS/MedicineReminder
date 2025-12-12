@@ -68,7 +68,11 @@ extension Coordinator: HomeFlowDelegate {
 
 // MARK: - MY PRESCRIPTIONS
 extension Coordinator: PrescriptionsFlowDelegate {
-    func goToMyPrescriptions() {
-        
+    func popScreen() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func goToNewPrescriptions() {
+        navigateToNewPrescriptions()
     }
 }

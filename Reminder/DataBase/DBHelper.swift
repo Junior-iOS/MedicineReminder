@@ -73,4 +73,44 @@ public class DBHelper {
         }
         sqlite3_finalize(statement)
     }
+    
+    func fetchPrescriptions() -> [Prescription] {
+        let query = "SELECT * FROM Prescriptions;"
+        var statement: OpaquePointer?
+        var prescriptions: [Prescription] = []
+        
+        if sqlite3_prepare(db, query, -1, &statement, nil) == SQLITE_OK {
+            while sqlite3_step(statement) == SQLITE_ROW {
+                let id = Int(sqlite3_column_int(statement, 0))
+                let medicine = sqlite3_column_text(statement, 1).flatMap({ String(cString: $0) }) ?? "Unknown"
+                let time = sqlite3_column_text(statement, 2).flatMap({ String(cString: $0) }) ?? "Unknown"
+                let recurrence = sqlite3_column_text(statement, 3).flatMap({ String(cString: $0) }) ?? "Unknown"
+                prescriptions.append(Prescription(id: id, medicine: medicine, time: time, recurrence: recurrence))
+            }
+        } else {
+            print("SELECT failed")
+        }
+        
+        sqlite3_finalize(statement)
+        return prescriptions
+    }
+    
+    func deletePrescription(by id: Int) {
+        let query = "DELETE FROM Prescriptions WHERE id = \(id);"
+        var statement: OpaquePointer?
+        
+        if sqlite3_prepare(db, query, -1, &statement, nil) == SQLITE_OK {
+            sqlite3_bind_int(statement, 1, Int32(id))
+            
+            if sqlite3_step(statement) == SQLITE_DONE {
+                print("Prescription deleted")
+            } else {
+                print("Could not delete prescription")
+            }
+        } else {
+            print("DELETE failed")
+        }
+        
+        sqlite3_finalize(statement)
+    }
 }

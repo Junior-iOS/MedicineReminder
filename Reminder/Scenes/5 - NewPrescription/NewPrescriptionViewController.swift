@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 final class NewPrescriptionViewController: UIViewController {
     private let prescriptionView = NewPrescriptionView()
@@ -19,6 +20,11 @@ final class NewPrescriptionViewController: UIViewController {
         super.viewDidLoad()
 
         setupButtons()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
     
     private func setupButtons() {
@@ -39,5 +45,16 @@ final class NewPrescriptionViewController: UIViewController {
         viewModel.addPrescription(medicine: medicine, time: time, recurrence: recurrence, shouldTakeItNow: false)
         print("Added prescription: \(medicine)")
         prescriptionView.clear()
+        playSuccessAnimation()
+    }
+    
+    private func playSuccessAnimation() {
+        prescriptionView.lottieAnimation.isHidden = false
+        prescriptionView.lottieAnimation.play { [weak self] completed in
+            guard let self else { return }
+            if completed {
+                self.prescriptionView.lottieAnimation.isHidden = true
+            }
+        }
     }
 }

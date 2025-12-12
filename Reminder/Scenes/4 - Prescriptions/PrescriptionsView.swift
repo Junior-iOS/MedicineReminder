@@ -16,6 +16,17 @@ protocol PrescriptionsViewDelegate: AnyObject {
 final class PrescriptionsView: UIView {
     weak var delegate: PrescriptionsViewDelegate?
     
+    private(set) lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.register(PrescriptionsCell.self, forCellReuseIdentifier: PrescriptionsCell.identifier)
+        tableView.backgroundColor = .clear
+        tableView.contentInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
+        tableView.showsVerticalScrollIndicator = false
+        tableView.separatorStyle = .none
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
     private lazy var headerBackground: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -93,6 +104,7 @@ final class PrescriptionsView: UIView {
             titleLabel,
             descriptionLabel
         )
+        contentBackground.addSubview(tableView)
         
         setupConstraints()
     }
@@ -125,6 +137,11 @@ final class PrescriptionsView: UIView {
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.small),
             descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.medium),
             descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.medium),
+            
+            tableView.topAnchor.constraint(equalTo: contentBackground.topAnchor, constant: 0),
+            tableView.leadingAnchor.constraint(equalTo: contentBackground.leadingAnchor, constant: 0),
+            tableView.trailingAnchor.constraint(equalTo: contentBackground.trailingAnchor, constant: 0),
+            tableView.bottomAnchor.constraint(equalTo: contentBackground.bottomAnchor, constant: 0),
         ])
     }
     

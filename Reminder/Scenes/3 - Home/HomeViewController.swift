@@ -84,19 +84,19 @@ final class HomeViewController: UIViewController {
             self?.didTapNewPrescription()
         }
     }
+    
+    private func didTapNewPrescription() {
+        homeDelegate?.navigateToNewPrescriptions()
+    }
+    
+    private func didTapMyPrescriptions() {
+        homeDelegate?.navigateToPrescriptions()
+    }
 }
 
 extension HomeViewController: HomeViewDelegate {
     func didTapProfileImage() {
         presentImagePicker()
-    }
-    
-    func didTapNewPrescription() {
-        homeDelegate?.navigateToNewPrescriptions()
-    }
-    
-    func didTapMyPrescriptions() {
-        homeDelegate?.navigateToPrescriptions()
     }
 }
 

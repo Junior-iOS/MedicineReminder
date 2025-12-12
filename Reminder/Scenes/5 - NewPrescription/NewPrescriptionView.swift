@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 final class NewPrescriptionView: UIView {
     
@@ -79,20 +80,29 @@ final class NewPrescriptionView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("+ Adicionar", for: .normal)
         button.titleLabel?.font = Typography.subHeading
-        button.backgroundColor = Colors.primaryRedBase
+        button.backgroundColor = button.isEnabled ? Colors.primaryRedBase : Colors.gray500
         button.setTitleColor(Colors.gray800, for: .normal)
         button.layer.cornerRadius = 12
         return button
     }()
     
-    private let recurrenceOptions: [String] = [
-        "De hora em hora",
-        "2 em 2 horas",
-        "4 em 4 horas",
-        "6 em 6 horas",
-        "8 em 8 horas",
-        "12 em 12 horas",
-        "Uma vez ao dia"
+    private(set) lazy var lottieAnimation: LottieAnimationView = {
+        let animationView = LottieAnimationView(name: "lottie-success")
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .playOnce
+        animationView.isHidden = true
+        return animationView
+    }()
+    
+    private let recurrenceOptions: [RecurrenceOptions] = [
+        .oneHour,
+        .twoHours,
+        .fourHours,
+        .sixHours,
+        .eightHours,
+        .twelveHours,
+        .onceADay
     ]
     
     override init(frame: CGRect) {
@@ -112,6 +122,7 @@ final class NewPrescriptionView: UIView {
             inputStackView,
             checkBox,
             addButton,
+            lottieAnimation
         )
         setTimeInput()
         setRecurrenceInput()
@@ -144,7 +155,12 @@ final class NewPrescriptionView: UIView {
             addButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.medium),
             addButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.medium),
             addButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Metrics.small),
-            addButton.heightAnchor.constraint(equalToConstant: 50)
+            addButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            lottieAnimation.centerXAnchor.constraint(equalTo: centerXAnchor),
+            lottieAnimation.centerYAnchor.constraint(equalTo: centerYAnchor),
+            lottieAnimation.widthAnchor.constraint(equalToConstant: 120),
+            lottieAnimation.heightAnchor.constraint(equalToConstant: 120)
         ])
     }
     
@@ -195,7 +211,7 @@ final class NewPrescriptionView: UIView {
     
     @objc private func didSelectRecurrence() {
         let selectedRow = recurrencePickerView.selectedRow(inComponent: 0)
-        recurrenceInput.textField.text = recurrenceOptions[selectedRow]
+        recurrenceInput.textField.text = recurrenceOptions[selectedRow].rawValue
         recurrenceInput.textField.resignFirstResponder()
         validateInputs()
     }
@@ -237,6 +253,7 @@ extension NewPrescriptionView: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        recurrenceOptions[row]
+        recurrenceOptions[row].rawValue
     }
 }
+
