@@ -5,8 +5,8 @@
 //  Created by NJ Development on 25/09/25.
 //
 
-import Foundation
 import FirebaseAuth
+import Foundation
 
 protocol LoginbottomSheetViewModelProtocol {
     func authenticate(user: String, password: String)
@@ -14,15 +14,14 @@ protocol LoginbottomSheetViewModelProtocol {
 }
 
 final class LoginBottomSheetViewModel: LoginbottomSheetViewModelProtocol {
-    
     var successResult: ((String) -> Void)?
     var errorResult: ((String) -> Void)?
-    
+
     func authenticate(user: String, password: String) {
         if isValidEmail(user) {
             print("User: \(user) - Password: \(password)")
-            Auth.auth().signIn(withEmail: user, password: password) { (authResult: AuthDataResult?, error: Error?) in
-                if let error = error {
+            Auth.auth().signIn(withEmail: user, password: password) { (_: AuthDataResult?, error: Error?) in
+                if let error {
                     print("Authentication failed: \(error.localizedDescription)")
                     self.errorResult?(error.localizedDescription)
                 } else {
@@ -34,7 +33,7 @@ final class LoginBottomSheetViewModel: LoginbottomSheetViewModelProtocol {
             print("Invalid email")
         }
     }
-    
+
     private func isValidEmail(_ email: String) -> Bool {
         let pattern = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$"
         let regex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)

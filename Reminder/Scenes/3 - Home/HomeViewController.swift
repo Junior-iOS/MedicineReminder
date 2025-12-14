@@ -14,36 +14,35 @@ protocol HomeFlowDelegate: AnyObject {
 }
 
 final class HomeViewController: UIViewController {
-    
     private let homeView: HomeView
     private weak var homeDelegate: HomeFlowDelegate?
     private let viewModel = HomeViewModel()
-    
+
     override func loadView() {
         view = homeView
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         checkForExistingData()
         setupNewPrescriptionAction()
     }
-    
+
     init(view: HomeView, delegate: HomeFlowDelegate) {
         self.homeView = view
         self.homeDelegate = delegate
         super.init(nibName: nil, bundle: nil)
         self.homeView.delegate = self
     }
-    
+
     @available(*, unavailable)
-    required init?(coder: NSCoder) { nil }
-    
+    required init?(coder _: NSCoder) { nil }
+
     private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
         navigationItem.hidesBackButton = true
@@ -56,12 +55,12 @@ final class HomeViewController: UIViewController {
         exitButton.tintColor = Colors.primaryRedBase
         navigationItem.rightBarButtonItem = exitButton
     }
-    
+
     @objc private func exitButtonTapped() {
         UserDefaultsManager.shared.removeUser()
         homeDelegate?.logout()
     }
-    
+
     private func presentImagePicker() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -69,7 +68,7 @@ final class HomeViewController: UIViewController {
         imagePicker.allowsEditing = true
         present(imagePicker, animated: true, completion: nil)
     }
-    
+
     private func checkForExistingData() {
         if let _ = UserDefaultsManager.shared.loadUser() {
             homeView.updateView(
@@ -78,21 +77,21 @@ final class HomeViewController: UIViewController {
             )
         }
     }
-    
+
     private func setupNewPrescriptionAction() {
         homeView.prescriptionCardView.tapAction = { [weak self] in
             self?.didTapMyPrescriptions()
         }
-        
+
         homeView.newPrescriptionCardView.tapAction = { [weak self] in
             self?.didTapNewPrescription()
         }
     }
-    
+
     private func didTapNewPrescription() {
         homeDelegate?.navigateToNewPrescriptions()
     }
-    
+
     private func didTapMyPrescriptions() {
         homeDelegate?.navigateToPrescriptions()
     }
@@ -105,7 +104,7 @@ extension HomeViewController: HomeViewDelegate {
 }
 
 extension HomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let editedImage = info[.editedImage] as? UIImage {
             homeView.profileImageView.image = editedImage
             UserDefaultsManager.shared.saveProfileImage(editedImage)
@@ -113,11 +112,11 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
             homeView.profileImageView.image = originalImage
             UserDefaultsManager.shared.saveProfileImage(originalImage)
         }
-        
+
         picker.dismiss(animated: true, completion: nil)
     }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+
+    func imagePickerControllerDidCancel(_: UIImagePickerController) {
         dismiss(animated: true)
     }
 }

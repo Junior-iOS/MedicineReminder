@@ -15,7 +15,7 @@ public struct Metrics {
     static let small: CGFloat = 12
     static let little: CGFloat = 8
     static let tiny: CGFloat = 4
-    
+
     static let buttonSize: CGFloat = 56
     static let textFieldHeight: CGFloat = 50
     static let profileImageSize: CGFloat = 70

@@ -16,8 +16,7 @@ final class HomeViewModel: HomeViewModelProtocol {
     var userName: String? {
         if let username = UserDefaultsManager.shared.loadUserName() {
             return username
-        } else {
-            return nil
         }
+        return nil
     }
 }

@@ -8,8 +8,15 @@
 import Foundation
 
 struct Prescription {
-    let id: Int
+    let id: Int?
     let medicine: String
     let time: String
     let recurrence: RecurrenceOptions
+
+    init(id: Int? = nil, medicine: String, time: String, recurrence: RecurrenceOptions) {
+        self.id = id
+        self.medicine = medicine
+        self.time = time
+        self.recurrence = recurrence
+    }
 }
