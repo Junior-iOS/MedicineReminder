@@ -11,5 +11,5 @@ struct Prescription {
     let id: Int
     let medicine: String
     let time: String
-    let recurrence: String
+    let recurrence: RecurrenceOptions
 }

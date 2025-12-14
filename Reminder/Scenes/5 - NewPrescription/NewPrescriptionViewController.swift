@@ -41,8 +41,9 @@ final class NewPrescriptionViewController: UIViewController {
         let medicine = prescriptionView.medicineInput.getText()
         let time = prescriptionView.timeInput.getText()
         let recurrence = prescriptionView.recurrenceInput.getText()
+        let prescription = Prescription(id: 1, medicine: medicine, time: time, recurrence: RecurrenceOptions(rawValue: recurrence) ?? .onceADay)
         
-        viewModel.addPrescription(medicine: medicine, time: time, recurrence: recurrence, shouldTakeItNow: false)
+        viewModel.addPrescription(prescription: prescription, shouldTakeItNow: false)
         print("Added prescription: \(medicine)")
         prescriptionView.clear()
         playSuccessAnimation()
@@ -58,3 +59,4 @@ final class NewPrescriptionViewController: UIViewController {
         }
     }
 }
+

@@ -16,6 +16,7 @@ final class LoginBottomSheetViewController: UIViewController {
     private let loginBottomSheetView: LoginBottomSheetView
     private let viewModel = LoginBottomSheetViewModel()
     public weak var delegate: LoginBottomSheetFlowDelegate?
+    private var bottomSheetBottomConstraint: NSLayoutConstraint?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,16 @@ final class LoginBottomSheetViewController: UIViewController {
         setupGesture()
         bindViewModel()
         setupTapToDismissKeyboard()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupKeyboardObservers()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        removeKeyboardObservers()
     }
     
     init(view: LoginBottomSheetView, delegate: LoginBottomSheetFlowDelegate) {
@@ -42,13 +53,13 @@ final class LoginBottomSheetViewController: UIViewController {
     }
     
     private func setupConstraints() {
+        bottomSheetBottomConstraint = loginBottomSheetView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+        
         NSLayoutConstraint.activate([
             loginBottomSheetView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             loginBottomSheetView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            loginBottomSheetView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            bottomSheetBottomConstraint!
         ])
-        
-        let heightAnchor = loginBottomSheetView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
     }
     
     private func bindViewModel() {
@@ -113,6 +124,50 @@ final class LoginBottomSheetViewController: UIViewController {
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    // MARK: - Keyboard Observers
+    private func setupKeyboardObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    private func removeKeyboardObservers() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            return
+        }
+        
+        let keyboardHeight = keyboardFrame.height / 1.5
+        bottomSheetBottomConstraint?.constant = -keyboardHeight
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc private func keyboardWillHide(notification: Notification) {
+        bottomSheetBottomConstraint?.constant = 0
+        
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
     }
 }
 

@@ -22,10 +22,14 @@ final class HomeViewController: UIViewController {
     override func loadView() {
         view = homeView
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupNavigationBar()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
         checkForExistingData()
         setupNewPrescriptionAction()
     }
@@ -67,7 +71,7 @@ final class HomeViewController: UIViewController {
     }
     
     private func checkForExistingData() {
-        if let user = UserDefaultsManager.shared.loadUser() {
+        if let _ = UserDefaultsManager.shared.loadUser() {
             homeView.updateView(
                 with: UserDefaultsManager.shared.loadUserName() ?? "",
                 and: UserDefaultsManager.shared.loadProfileImage()
@@ -109,7 +113,7 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
             homeView.profileImageView.image = originalImage
             UserDefaultsManager.shared.saveProfileImage(originalImage)
         }
-    
+        
         picker.dismiss(animated: true, completion: nil)
     }
     

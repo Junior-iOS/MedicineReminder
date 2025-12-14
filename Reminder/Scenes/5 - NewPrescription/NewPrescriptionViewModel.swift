@@ -9,32 +9,46 @@ import Foundation
 import UserNotifications
 
 final class NewPrescriptionViewModel {
-    func addPrescription(medicine: String, time: String, recurrence: String, shouldTakeItNow: Bool) {
-        DBHelper.shared.insertPrescription(medicine: medicine, time: time, recurrence: recurrence, shouldTakeItNow: shouldTakeItNow)
+    private let notificationCenter: UNUserNotificationCenter
+    
+    init(notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()) {
+        self.notificationCenter = notificationCenter
+    }
+    
+    func addPrescription(prescription: Prescription, shouldTakeItNow: Bool) {
+        DBHelper.shared.insertPrescription(prescription: prescription, shouldTakeItNow: shouldTakeItNow)
+        addNotification(for: prescription)
     }
     
     func addNotification(for prescription: Prescription) {
-        let notificationCenter = UNUserNotificationCenter.current()
         let content = UNMutableNotificationContent()
         content.title = "Time to take your medication"
         content.body = "It's time to take your \(prescription.medicine)!"
         content.sound = .default
         
+        let recurrence = getIntervalRecurrence(from: prescription.recurrence)
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         guard let initialDate = formatter.date(from: prescription.time) else { return }
         
+        var currentDate = initialDate
         let calendar = Calendar.current
-        let dateComponents = calendar.dateComponents([.hour, .minute], from: initialDate)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-        let request = UNNotificationRequest(identifier: prescription.id.description, content: content, trigger: trigger)
         
-        notificationCenter.add(request) { error in
-            if let error = error {
-                print("Error adding notification: \(error)")
-            } else {
-                print("Notification added successfully")
+        for i in 0..<(24 / recurrence) {
+            let dateComponents = calendar.dateComponents([.hour, .minute], from: initialDate)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            let request = UNNotificationRequest(identifier: "\(prescription.medicine) - \(i)", content: content, trigger: trigger)
+            
+            notificationCenter.add(request) { error in
+                if let error = error {
+                    print("Error adding notification: \(error)")
+                } else {
+                    print("Notification added successfully")
+                }
             }
+            
+            currentDate = calendar.date(byAdding: .hour, value: recurrence, to: currentDate) ?? Date()
         }
     }
     

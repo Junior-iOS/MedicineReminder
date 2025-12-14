@@ -141,6 +141,6 @@ final class PrescriptionsCell: UITableViewCell {
     func configure(with prescription: Prescription) {
         titleLabel.text = prescription.medicine
         timeLabel.text = prescription.time
-        recurrenceLabel.text = prescription.recurrence
+        recurrenceLabel.text = prescription.recurrence.rawValue
     }
 }
