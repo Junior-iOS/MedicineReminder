@@ -15,7 +15,7 @@ protocol PrescriptionsViewDelegate: AnyObject {
 
 final class PrescriptionsView: UIView {
     weak var delegate: PrescriptionsViewDelegate?
-    
+
     private(set) lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.register(PrescriptionsCell.self, forCellReuseIdentifier: PrescriptionsCell.identifier)
@@ -26,7 +26,7 @@ final class PrescriptionsView: UIView {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
+
     private lazy var headerBackground: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +34,7 @@ final class PrescriptionsView: UIView {
         view.layer.cornerRadius = Metrics.medium
         return view
     }()
-    
+
     private(set) lazy var backButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +43,7 @@ final class PrescriptionsView: UIView {
         button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         return button
     }()
-    
+
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -52,7 +52,7 @@ final class PrescriptionsView: UIView {
         label.font = Typography.heading
         return label
     }()
-    
+
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -62,7 +62,7 @@ final class PrescriptionsView: UIView {
         label.numberOfLines = 0
         return label
     }()
-    
+
     private(set) lazy var addButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -74,7 +74,7 @@ final class PrescriptionsView: UIView {
         button.addTarget(self, action: #selector(didTapAddButton), for: .touchUpInside)
         return button
     }()
-    
+
     private lazy var contentBackground: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -84,19 +84,19 @@ final class PrescriptionsView: UIView {
         view.layer.masksToBounds = true
         return view
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         setupView()
     }
-    
+
     @available(*, unavailable)
-    required init?(coder: NSCoder) { nil }
-    
+    required init?(coder _: NSCoder) { nil }
+
     private func setupView() {
         backgroundColor = Colors.gray800
-        
+
         addSubviews(headerBackground, contentBackground)
         headerBackground.addSubviews(
             backButton,
@@ -105,50 +105,50 @@ final class PrescriptionsView: UIView {
             descriptionLabel
         )
         contentBackground.addSubview(tableView)
-        
+
         setupConstraints()
     }
-    
+
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             headerBackground.topAnchor.constraint(equalTo: topAnchor),
             headerBackground.leadingAnchor.constraint(equalTo: leadingAnchor),
             headerBackground.trailingAnchor.constraint(equalTo: trailingAnchor),
             headerBackground.heightAnchor.constraint(equalToConstant: Metrics.profileBackgroundSize),
-            
+
             contentBackground.topAnchor.constraint(equalTo: headerBackground.bottomAnchor, constant: -Metrics.large),
             contentBackground.leadingAnchor.constraint(equalTo: leadingAnchor),
             contentBackground.trailingAnchor.constraint(equalTo: trailingAnchor),
             contentBackground.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
+
             backButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Metrics.large),
             backButton.leadingAnchor.constraint(equalTo: headerBackground.leadingAnchor, constant: Metrics.medium),
             backButton.heightAnchor.constraint(equalToConstant: 24),
             backButton.widthAnchor.constraint(equalToConstant: 24),
-            
+
             addButton.trailingAnchor.constraint(equalTo: headerBackground.trailingAnchor, constant: -Metrics.medium),
             addButton.centerYAnchor.constraint(equalTo: backButton.centerYAnchor),
             addButton.heightAnchor.constraint(equalToConstant: 40),
             addButton.widthAnchor.constraint(equalToConstant: 40),
-            
+
             titleLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: Metrics.small),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.medium),
-            
+
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.small),
             descriptionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.medium),
             descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.medium),
-            
+
             tableView.topAnchor.constraint(equalTo: contentBackground.topAnchor, constant: 0),
             tableView.leadingAnchor.constraint(equalTo: contentBackground.leadingAnchor, constant: 0),
             tableView.trailingAnchor.constraint(equalTo: contentBackground.trailingAnchor, constant: 0),
-            tableView.bottomAnchor.constraint(equalTo: contentBackground.bottomAnchor, constant: 0),
+            tableView.bottomAnchor.constraint(equalTo: contentBackground.bottomAnchor, constant: 0)
         ])
     }
-    
+
     @objc private func didTapBackButton() {
         delegate?.didTapBackButton()
     }
-    
+
     @objc private func didTapAddButton() {
         delegate?.didTapAddbutton()
     }

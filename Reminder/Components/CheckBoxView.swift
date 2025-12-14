@@ -8,7 +8,6 @@
 import UIKit
 
 final class CheckBoxView: UIView {
-    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -16,7 +15,7 @@ final class CheckBoxView: UIView {
         label.font = Typography.input
         return label
     }()
-    
+
     private lazy var checkBoxButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -24,7 +23,7 @@ final class CheckBoxView: UIView {
         button.tintColor = Colors.gray400
         return button
     }()
-    
+
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [checkBoxButton, titleLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,23 +37,23 @@ final class CheckBoxView: UIView {
         self.titleLabel.text = title
         setupView()
     }
-    
+
     @available(*, unavailable)
-    required init?(coder: NSCoder) { nil }
+    required init?(coder _: NSCoder) { nil }
 
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
         setupConstraints()
     }
-    
+
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
+
             checkBoxButton.widthAnchor.constraint(equalToConstant: Metrics.medium),
             checkBoxButton.heightAnchor.constraint(equalToConstant: Metrics.medium)
         ])

@@ -8,7 +8,6 @@
 import UIKit
 
 final class SplashView: UIView {
-    
     private lazy var logoView: UIImageView = {
         let imageView = UIImageView(icon: .crossCaseCircleFill)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -16,7 +15,7 @@ final class SplashView: UIView {
         imageView.tintColor = .white
         return imageView
     }()
-    
+
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +25,7 @@ final class SplashView: UIView {
         label.font = .systemFont(ofSize: Metrics.large, weight: .bold)
         return label
     }()
-    
+
     private(set) lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [logoView, titleLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,21 +39,21 @@ final class SplashView: UIView {
         super.init(frame: frame)
         setupUI()
     }
-    
+
     @available(*, unavailable)
-    required init?(coder: NSCoder) { nil }
+    required init?(coder _: NSCoder) { nil }
 
     private func setupUI() {
         backgroundColor = Colors.primaryRedBase
         addSubview(stackView)
         setupConstraints()
     }
-    
+
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
+
             logoView.widthAnchor.constraint(equalToConstant: Metrics.large),
             logoView.heightAnchor.constraint(equalToConstant: Metrics.large)
         ])

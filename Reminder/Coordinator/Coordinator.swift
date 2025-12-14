@@ -12,12 +12,12 @@ final class Coordinator {
     // MARK: - Properties
     private var navigationController: UINavigationController?
     private let viewControllerFactory: FactoryViewControllers
-    
+
     // MARK: - Init
     init() {
         self.viewControllerFactory = FactoryViewControllers()
     }
-    
+
     func start() -> UINavigationController {
         let splashVC = viewControllerFactory.makeSplashViewController(flowDelegate: self)
         navigationController = UINavigationController(rootViewController: splashVC)
@@ -52,13 +52,13 @@ extension Coordinator: HomeFlowDelegate {
         self.navigationController?.popToRootViewController(animated: true)
         navigateToLogin()
     }
-    
+
     func navigateToPrescriptions() {
         let myPrescriptionsViewController = viewControllerFactory.makePrescriptionViewController(flowDelegate: self)
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.pushViewController(myPrescriptionsViewController, animated: true)
     }
-    
+
     func navigateToNewPrescriptions() {
         let newPrescriptionViewController = viewControllerFactory.makeNewPrescriptionViewController()
         self.navigationController?.navigationBar.isHidden = true
@@ -71,7 +71,7 @@ extension Coordinator: PrescriptionsFlowDelegate {
     func popScreen() {
         navigationController?.popViewController(animated: true)
     }
-    
+
     func goToNewPrescriptions() {
         navigateToNewPrescriptions()
     }

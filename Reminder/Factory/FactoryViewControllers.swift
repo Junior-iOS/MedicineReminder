@@ -20,19 +20,19 @@ final class FactoryViewControllers: FactoryViewControllersProtocol {
     func makeSplashViewController(flowDelegate: SplashFlowDelegate) -> SplashViewController {
         SplashViewController(view: SplashView(), delegate: flowDelegate)
     }
-    
+
     func makeLoginBottomSheetViewController(flowDelegate: LoginBottomSheetFlowDelegate) -> LoginBottomSheetViewController {
         LoginBottomSheetViewController(view: LoginBottomSheetView(), delegate: flowDelegate)
     }
-    
+
     func makeHomeViewController(flowDelegate: HomeFlowDelegate) -> HomeViewController {
         HomeViewController(view: HomeView(), delegate: flowDelegate)
     }
-    
+
     func makePrescriptionViewController(flowDelegate: PrescriptionsFlowDelegate) -> PrescriptionsViewController {
         PrescriptionsViewController(prescriptionView: PrescriptionsView(), flowDelegate: flowDelegate)
     }
-    
+
     func makeNewPrescriptionViewController() -> NewPrescriptionViewController {
         NewPrescriptionViewController()
     }

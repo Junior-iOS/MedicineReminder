@@ -27,12 +27,12 @@ final class DoneAccessoryView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             button.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Metrics.default),
-            button.centerYAnchor.constraint(equalTo: centerYAnchor),
+            button.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
         NSLayoutConstraint.activate([
             heightAnchor.constraint(equalToConstant: 50)
         ])
     }
 
-    required init?(coder: NSCoder) { fatalError() }
+    required init?(coder _: NSCoder) { fatalError() }
 }

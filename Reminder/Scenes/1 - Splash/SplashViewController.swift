@@ -13,34 +13,33 @@ protocol SplashFlowDelegate: AnyObject {
 }
 
 final class SplashViewController: UIViewController {
-    
     private let splashView: SplashView
-    public weak var splashDelegate: SplashFlowDelegate?
-        
+    weak var splashDelegate: SplashFlowDelegate?
+
     override func loadView() {
         view = splashView
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         setupGesture()
         animateView()
     }
-    
+
     init(view: SplashView, delegate: SplashFlowDelegate) {
         self.splashView = view
         self.splashDelegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     @available(*, unavailable)
-    required init?(coder: NSCoder) { nil }
-    
+    required init?(coder _: NSCoder) { nil }
+
     private func setup() {
         navigationController?.navigationBar.isHidden = true
     }
-    
+
     private func setupGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showLoginBottomSheet))
         splashView.addGestureRecognizer(tapGesture)
@@ -50,7 +49,7 @@ final class SplashViewController: UIViewController {
         animateLogoUp()
         self.splashDelegate?.navigateToLogin()
     }
-    
+
     private func checkNavigationFlow() {
         if let user = UserDefaultsManager.shared.loadUser(), user.isUserLoggedIn {
             self.splashDelegate?.navigateToHome()
@@ -69,7 +68,7 @@ extension SplashViewController {
             self.checkNavigationFlow()
         }
     }
-    
+
     private func animateLogoUp() {
         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
             self.splashView.stackView.transform = CGAffineTransform(translationX: 0, y: -100)
@@ -77,9 +76,9 @@ extension SplashViewController {
     }
 }
 
-//import UIKit
+// import UIKit
 //
-//final class AmountInputViewController: UIViewController {
+// final class AmountInputViewController: UIViewController {
 //    
 //    private let textField = UITextField()
 //    private var bubblesAccessory: AmountAccessoryView!
@@ -143,9 +142,9 @@ extension SplashViewController {
 //            textField.reloadInputViews()
 //        }
 //    }
-//}
+// }
 //
-//final class AmountAccessoryView: UIView {
+// final class AmountAccessoryView: UIView {
 //    var onBubbleTapped: ((UInt) -> Void)?
 //    
 //    init(bubbles: [UInt]) {
@@ -198,9 +197,9 @@ extension SplashViewController {
 //            heightAnchor.constraint(equalToConstant: 50)
 //        ])
 //    }
-//}
+// }
 //
-//final class DoneAccessoryView: UIView {
+// final class DoneAccessoryView: UIView {
 //    var onDoneTapped: (() -> Void)?
 //    
 //    init() {
@@ -224,11 +223,11 @@ extension SplashViewController {
 //    }
 //    
 //    required init?(coder: NSCoder) { fatalError() }
-//}
+// }
 //
-//import UIKit
+// import UIKit
 //
-//final class ViewController: UIViewController, UITextFieldDelegate {
+// final class ViewController: UIViewController, UITextFieldDelegate {
 //    
 //    private let amountTextField: UITextField = {
 //        let textField = UITextField()
@@ -270,4 +269,4 @@ extension SplashViewController {
 //    @objc private func doneTapped() {
 //        view.endEditing(true)
 //    }
-//}
+// }
