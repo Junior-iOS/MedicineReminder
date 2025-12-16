@@ -18,6 +18,36 @@
             endingLineNumber = "17"
             landmarkName = "userName"
             landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "AEC26BEA-53B6-4CA9-B109-BFFE7399F9E7 - 22cd0302792a3dc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Reminder.HomeViewModel.userName.getter : Swift.Optional&lt;Swift.String&gt;"
+                  moduleName = "Reminder.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juniorsilva/Developer/Projetos%20iOS/Reminder/Reminder/Scenes/3%20-%20Home/HomeViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17">
+               </Location>
+               <Location
+                  uuid = "AEC26BEA-53B6-4CA9-B109-BFFE7399F9E7 - 22cd0302792a3dc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Reminder.HomeViewModel.userName.getter : Swift.Optional&lt;Swift.String&gt;"
+                  moduleName = "Reminder.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/juniorsilva/Developer/Projetos%20iOS/Reminder/Reminder/Scenes/3%20-%20Home/HomeViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -55,22 +85,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9F170FB0-02C6-48C0-897F-EBA9BDFACD59"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Reminder/Scenes/4 - Prescriptions/PrescriptionsViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "tableView(_:cellForRowAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "854D4A3F-2AA9-4857-A0AC-AA4488E909AA"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -81,22 +95,6 @@
             startingLineNumber = "36"
             endingLineNumber = "36"
             landmarkName = "addNotification(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "664BAA37-CFE8-4583-A377-6EE6D76DF900"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Reminder/Scenes/4 - Prescriptions/PrescriptionsViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
