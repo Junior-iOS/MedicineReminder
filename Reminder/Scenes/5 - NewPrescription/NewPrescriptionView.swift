@@ -7,6 +7,7 @@
 
 import Lottie
 import UIKit
+import OnboardingKit
 
 final class NewPrescriptionView: UIView {
     private(set) lazy var backButton: UIButton = {
@@ -70,7 +71,7 @@ final class NewPrescriptionView: UIView {
         return pickerView
     }()
 
-    private lazy var checkBox: CheckBoxView = {
+    private(set) lazy var checkBox: CheckBoxView = {
         CheckBoxView(title: "Tomar agora")
     }()
 

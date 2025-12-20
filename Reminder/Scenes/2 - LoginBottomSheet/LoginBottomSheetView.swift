@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import OnboardingKit
 
 protocol LoginBottomSheetViewDelegate: AnyObject {
     func sendLoginData(user: String, password: String)

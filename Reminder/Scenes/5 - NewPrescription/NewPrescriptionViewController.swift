@@ -7,10 +7,12 @@
 
 import Lottie
 import UIKit
+import OnboardingKit
 
 final class NewPrescriptionViewController: UIViewController {
     private let prescriptionView = NewPrescriptionView()
     private let viewModel = NewPrescriptionViewModel()
+    private let onboardingView = OnboardingView()
 
     override func loadView() {
         view = prescriptionView
@@ -18,8 +20,12 @@ final class NewPrescriptionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupButtons()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        presentOnboarding()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -43,8 +49,10 @@ final class NewPrescriptionViewController: UIViewController {
         let recurrence = prescriptionView.recurrenceInput.getText()
         let prescription = Prescription(medicine: medicine, time: time, recurrence: RecurrenceOptions(rawValue: recurrence) ?? .onceADay)
 
-        viewModel.addPrescription(prescription: prescription, shouldTakeItNow: false)
-        print("Added prescription: \(medicine)")
+        viewModel.addPrescription(
+            prescription: prescription,
+            shouldTakeItNow: prescriptionView.checkBox.checkBoxButton.hasCheckedState()
+        )
         prescriptionView.clear()
         playSuccessAnimation()
     }
@@ -56,6 +64,20 @@ final class NewPrescriptionViewController: UIViewController {
             if completed {
                 prescriptionView.lottieAnimation.isHidden = true
             }
+        }
+    }
+    
+    private func presentOnboarding() {
+        if !UserDefaultsManager.shared.hasSeenOnboarding() {
+            onboardingView.presentOnboarding(
+                on: view,
+                with: [
+                    (image: UIImage(systemName: "hand.rays.fill"), text: "Toque para adicionar um medicamento"),
+                    (image: UIImage(systemName: "clock.circle"), text: "Defina o horário do lembrete"),
+                    (image: UIImage(systemName: "repeat.circle.fill"), text: "Escolha a recorrência")
+                ]
+            )
+            UserDefaultsManager.shared.setHasSeenOnboarding()
         }
     }
 }

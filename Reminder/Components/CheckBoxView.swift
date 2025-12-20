@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OnboardingKit
 
 final class CheckBoxView: UIView {
     private lazy var titleLabel: UILabel = {
@@ -13,15 +14,14 @@ final class CheckBoxView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = Colors.gray200
         label.font = Typography.input
+        label.isUserInteractionEnabled = true
         return label
     }()
-
-    private lazy var checkBoxButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(icon: .square), for: .normal)
-        button.tintColor = Colors.gray400
-        return button
+    
+    private(set) lazy var checkBoxButton: ToggleCheckBox = {
+        let checkbox = ToggleCheckBox()
+        checkbox.translatesAutoresizingMaskIntoConstraints = false
+        return checkbox
     }()
 
     private lazy var stackView: UIStackView = {
@@ -45,6 +45,16 @@ final class CheckBoxView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
         setupConstraints()
+        setupGesture()
+    }
+    
+    private func setupGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTitleLabelTap))
+        titleLabel.addGestureRecognizer(tap)
+    }
+    
+    @objc private func handleTitleLabelTap() {
+        checkBoxButton.sendActions(for: .touchUpInside)
     }
 
     private func setupConstraints() {

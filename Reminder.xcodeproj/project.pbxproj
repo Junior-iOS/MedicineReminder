@@ -10,6 +10,7 @@
 		141A5CEB2EAAE4B80096C3B5 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 141A5CEA2EAAE4B80096C3B5 /* SQLite */; };
 		142796D82E85FD9C00F5E678 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 142796D72E85FD9C00F5E678 /* FirebaseAuth */; };
 		142DEC7C2EEA807800994035 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 142DEC7B2EEA807800994035 /* Lottie */; };
+		145C59082EF2495400B07D72 /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = 145C59072EF2495400B07D72 /* OnboardingKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				145C59082EF2495400B07D72 /* OnboardingKit in Frameworks */,
 				141A5CEB2EAAE4B80096C3B5 /* SQLite in Frameworks */,
 				142796D82E85FD9C00F5E678 /* FirebaseAuth in Frameworks */,
 				142DEC7C2EEA807800994035 /* Lottie in Frameworks */,
@@ -145,6 +147,7 @@
 				142796D72E85FD9C00F5E678 /* FirebaseAuth */,
 				141A5CEA2EAAE4B80096C3B5 /* SQLite */,
 				142DEC7B2EEA807800994035 /* Lottie */,
+				145C59072EF2495400B07D72 /* OnboardingKit */,
 			);
 			productName = Reminder;
 			productReference = 142795F32E858A8900F5E678 /* Reminder.app */;
@@ -232,6 +235,7 @@
 				142796D62E85FD9C00F5E678 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				141A5CE92EAAE4B80096C3B5 /* XCRemoteSwiftPackageReference "SQLite.swift" */,
 				142DEC742EEA7E1A00994035 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				145C59062EF2495400B07D72 /* XCRemoteSwiftPackageReference "OnboardingKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 142795F42E858A8900F5E678 /* Products */;
@@ -652,6 +656,14 @@
 				minimumVersion = 4.5.2;
 			};
 		};
+		145C59062EF2495400B07D72 /* XCRemoteSwiftPackageReference "OnboardingKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Junior-iOS/OnboardingKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.5;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -669,6 +681,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 142DEC742EEA7E1A00994035 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		145C59072EF2495400B07D72 /* OnboardingKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 145C59062EF2495400B07D72 /* XCRemoteSwiftPackageReference "OnboardingKit" */;
+			productName = OnboardingKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

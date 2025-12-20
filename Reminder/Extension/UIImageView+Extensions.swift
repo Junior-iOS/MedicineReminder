@@ -35,4 +35,5 @@ public enum Icon: String {
     case clock = "clock"
     case `repeat` = "repeat"
     case trash = "trash"
+    case star = "star"
 }

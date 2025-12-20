@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OnboardingKit
 
 final class SplashView: UIView {
     private lazy var logoView: UIImageView = {

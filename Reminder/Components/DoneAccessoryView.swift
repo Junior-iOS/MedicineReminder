@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OnboardingKit
 
 final class DoneAccessoryView: UIView {
     var onDoneTapped: (() -> Void)?

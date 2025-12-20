@@ -15,6 +15,7 @@ final class UserDefaultsManager {
         static let user = "userKey"
         static let userName = "userName"
         static let profileImage = "profileImage"
+        static let isFirstLaunch = "isFirstLaunch"
     }
 
     func save(_ user: User) {
@@ -63,5 +64,13 @@ final class UserDefaultsManager {
             return UIImage(icon: .personCropCircleFill)
         }
         return UIImage(data: imageData)
+    }
+    
+    func hasSeenOnboarding() -> Bool {
+        return defaults.bool(forKey: Keys.isFirstLaunch)
+    }
+    
+    func setHasSeenOnboarding() {
+        defaults.set(true, forKey: Keys.isFirstLaunch)
     }
 }

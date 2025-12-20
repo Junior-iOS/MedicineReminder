@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import OnboardingKit
 
 protocol HomeViewDelegate: AnyObject {
     func didTapProfileImage()
@@ -65,16 +66,26 @@ final class HomeView: UIView {
         return view
     }()
 
-    private lazy var feedbackButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("HOME_FEEDBACK_BUTTON".localized, for: .normal)
-        button.backgroundColor = Colors.gray100
-        button.setTitleColor(Colors.gray800, for: .normal)
-        button.layer.cornerRadius = Metrics.medium
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+//    private lazy var feedbackButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        button.setTitle("HOME_FEEDBACK_BUTTON".localized, for: .normal)
+//        button.backgroundColor = Colors.gray100
+//        button.setTitleColor(Colors.gray800, for: .normal)
+//        button.layer.cornerRadius = Metrics.medium
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
 
+    private var feedbackButton: NJButton = {
+        guard let starImage = UIImage(icon: .star) else { return NJButton(title: "") }
+        return NJButton(
+            title: "HOME_FEEDBACK_BUTTON".localized,
+            icon: starImage,
+            iconPosition: .horizontal,
+            backgroundColor: Colors.gray100
+        )
+    }()
+    
     private(set) lazy var prescriptionCardView: CardView = {
         CardView(
             icon: UIImage(icon: .newsPaper),
@@ -96,6 +107,7 @@ final class HomeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        feedbackButton.delegate = self
     }
 
     @available(*, unavailable)
@@ -188,5 +200,11 @@ extension HomeView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+extension HomeView: NJButtonProtocol {
+    func didTap() {
+        print("Tapped")
     }
 }

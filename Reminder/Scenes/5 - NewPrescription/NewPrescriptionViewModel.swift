@@ -16,8 +16,22 @@ final class NewPrescriptionViewModel {
     }
 
     func addPrescription(prescription: Prescription, shouldTakeItNow: Bool) {
+        var updatedTime = prescription.time
+        
+        if shouldTakeItNow {
+            let date = Date()
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm"
+            updatedTime = formatter.string(from: date)
+        }
+        
         if let insertedId = DBHelper.shared.insertPrescription(prescription: prescription, shouldTakeItNow: shouldTakeItNow) {
-            let prescriptionWithId = Prescription(id: insertedId, medicine: prescription.medicine, time: prescription.time, recurrence: prescription.recurrence)
+            let prescriptionWithId = Prescription(
+                id: insertedId,
+                medicine: prescription.medicine,
+                time: updatedTime,
+                recurrence: prescription.recurrence
+            )
             addNotification(for: prescriptionWithId)
         }
     }

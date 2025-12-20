@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OnboardingKit
 
 final class PrescriptionsCell: UITableViewCell {
     var onDelete: (() -> Void)?

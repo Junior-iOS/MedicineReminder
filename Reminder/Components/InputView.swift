@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OnboardingKit
 
 final class InputView: UIView {
     private lazy var titleLabel: UILabel = {

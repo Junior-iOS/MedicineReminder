@@ -1,12 +1,11 @@
 //
-//  RecurrenceOptions.swift
+//  User.swift
 //  Reminder
 //
-//  Created by NJ Development on 12/12/25.
+//  Created by NJ Development on 26/09/25.
 //
 
 import Foundation
-import UIKit
 
 public enum RecurrenceOptions: String {
     case oneHour = "De hora em hora"
