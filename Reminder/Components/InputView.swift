@@ -5,8 +5,8 @@
 //  Created by NJ Development on 22/10/25.
 //
 
-import UIKit
 import OnboardingKit
+import UIKit
 
 final class InputView: UIView {
     private lazy var titleLabel: UILabel = {

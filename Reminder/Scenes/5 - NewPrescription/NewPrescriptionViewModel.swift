@@ -8,7 +8,11 @@
 import Foundation
 import UserNotifications
 
-final class NewPrescriptionViewModel {
+protocol NewPrescriptionViewModelProtocol {
+    func addPrescription(prescription: Prescription, shouldTakeItNow: Bool)
+}
+
+final class NewPrescriptionViewModel: NewPrescriptionViewModelProtocol {
     private let notificationCenter: UNUserNotificationCenter
 
     init(notificationCenter: UNUserNotificationCenter = UNUserNotificationCenter.current()) {
@@ -17,14 +21,14 @@ final class NewPrescriptionViewModel {
 
     func addPrescription(prescription: Prescription, shouldTakeItNow: Bool) {
         var updatedTime = prescription.time
-        
+
         if shouldTakeItNow {
             let date = Date()
             let formatter = DateFormatter()
             formatter.dateFormat = "HH:mm"
             updatedTime = formatter.string(from: date)
         }
-        
+
         if let insertedId = DBHelper.shared.insertPrescription(prescription: prescription, shouldTakeItNow: shouldTakeItNow) {
             let prescriptionWithId = Prescription(
                 id: insertedId,
@@ -52,7 +56,7 @@ final class NewPrescriptionViewModel {
         let calendar = Calendar.current
 
         for i in 0..<(24 / recurrence) {
-            let dateComponents = calendar.dateComponents([.hour, .minute], from: initialDate)
+            let dateComponents = calendar.dateComponents([.hour, .minute], from: currentDate)
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
             let request = UNNotificationRequest(identifier: "\(prescription.medicine) - \(i)", content: content, trigger: trigger)
 
@@ -60,7 +64,7 @@ final class NewPrescriptionViewModel {
                 if let error {
                     print("Error adding notification: \(error)")
                 } else {
-                    print("Notification added successfully")
+                    print("Notification scheduled: id=\(request.identifier), time=\(String(format: "%02d:%02d", dateComponents.hour ?? -1, dateComponents.minute ?? -1))")
                 }
             }
 

@@ -5,8 +5,8 @@
 //  Created by NJ Development on 26/09/25.
 //
 
-import UIKit
 import OnboardingKit
+import UIKit
 
 protocol HomeFlowDelegate: AnyObject {
     func logout()
@@ -58,7 +58,7 @@ final class HomeViewController: UIViewController {
     }
 
     @objc private func exitButtonTapped() {
-        UserDefaultsManager.shared.removeUser()
+        viewModel.removeUser()
         homeDelegate?.logout()
     }
 
@@ -71,10 +71,11 @@ final class HomeViewController: UIViewController {
     }
 
     private func checkForExistingData() {
-        if let _ = UserDefaultsManager.shared.loadUser() {
+        let userData = viewModel.loadUserData()
+        if let userName = userData.userName {
             homeView.updateView(
-                with: UserDefaultsManager.shared.loadUserName() ?? "",
-                and: UserDefaultsManager.shared.loadProfileImage()
+                with: userName,
+                and: userData.profileImage
             )
         }
     }
@@ -108,10 +109,10 @@ extension HomeViewController: UIImagePickerControllerDelegate, UINavigationContr
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let editedImage = info[.editedImage] as? UIImage {
             homeView.profileImageView.image = editedImage
-            UserDefaultsManager.shared.saveProfileImage(editedImage)
+            viewModel.saveProfileImage(editedImage)
         } else if let originalImage = info[.originalImage] as? UIImage {
             homeView.profileImageView.image = originalImage
-            UserDefaultsManager.shared.saveProfileImage(originalImage)
+            viewModel.saveProfileImage(originalImage)
         }
 
         picker.dismiss(animated: true, completion: nil)

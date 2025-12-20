@@ -74,7 +74,7 @@ final class LoginBottomSheetViewController: UIViewController {
     private func presentSavedLoginAlert(user: String) {
         let alert = UIAlertController(title: "Salvar Acesso", message: "Deseja salvar seu acesso?", preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Salvar", style: .default) { _ in
-            let user = User(email: user, isUserLoggedIn: true)
+            let user = User(email: user, isUserLoggedIn: true, hasFaceID: false)
             UserDefaultsManager.shared.save(user)
             self.delegate?.navigateToHome()
         }

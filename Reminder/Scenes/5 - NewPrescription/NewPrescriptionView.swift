@@ -6,8 +6,8 @@
 //
 
 import Lottie
-import UIKit
 import OnboardingKit
+import UIKit
 
 final class NewPrescriptionView: UIView {
     private(set) lazy var backButton: UIButton = {

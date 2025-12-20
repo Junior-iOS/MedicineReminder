@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import UIKit
 import OnboardingKit
+import UIKit
 
 protocol PrescriptionsViewDelegate: AnyObject {
     func didTapBackButton()

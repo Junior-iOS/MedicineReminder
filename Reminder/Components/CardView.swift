@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import UIKit
 import OnboardingKit
+import UIKit
 
 final class CardView: UIView {
     var tapAction: (() -> Void)?

@@ -52,10 +52,14 @@ final class SplashViewController: UIViewController {
 
     private func checkNavigationFlow() {
         if let user = UserDefaultsManager.shared.loadUser(), user.isUserLoggedIn {
-            self.splashDelegate?.navigateToHome()
+            user.hasFaceID ? authenticateFaceID() : self.splashDelegate?.navigateToHome()
         } else {
             showLoginBottomSheet()
         }
+    }
+    
+    private func authenticateFaceID() {
+        
     }
 }
 

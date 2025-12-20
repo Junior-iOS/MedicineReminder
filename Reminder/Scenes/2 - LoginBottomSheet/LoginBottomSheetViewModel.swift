@@ -11,6 +11,7 @@ import Foundation
 protocol LoginbottomSheetViewModelProtocol {
     func authenticate(user: String, password: String)
     var successResult: ((String) -> Void)? { get set }
+    var errorResult: ((String) -> Void)? { get set }
 }
 
 final class LoginBottomSheetViewModel: LoginbottomSheetViewModelProtocol {

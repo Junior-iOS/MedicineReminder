@@ -65,11 +65,11 @@ final class UserDefaultsManager {
         }
         return UIImage(data: imageData)
     }
-    
+
     func hasSeenOnboarding() -> Bool {
-        return defaults.bool(forKey: Keys.isFirstLaunch)
+        defaults.bool(forKey: Keys.isFirstLaunch)
     }
-    
+
     func setHasSeenOnboarding() {
         defaults.set(true, forKey: Keys.isFirstLaunch)
     }

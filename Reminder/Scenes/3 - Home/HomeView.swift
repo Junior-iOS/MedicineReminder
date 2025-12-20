@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import UIKit
 import OnboardingKit
+import UIKit
 
 protocol HomeViewDelegate: AnyObject {
     func didTapProfileImage()
@@ -85,7 +85,7 @@ final class HomeView: UIView {
             backgroundColor: Colors.gray100
         )
     }()
-    
+
     private(set) lazy var prescriptionCardView: CardView = {
         CardView(
             icon: UIImage(icon: .newsPaper),

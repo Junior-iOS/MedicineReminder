@@ -6,8 +6,8 @@
 //
 
 import Lottie
-import UIKit
 import OnboardingKit
+import UIKit
 
 final class NewPrescriptionViewController: UIViewController {
     private let prescriptionView = NewPrescriptionView()
@@ -22,7 +22,7 @@ final class NewPrescriptionViewController: UIViewController {
         super.viewDidLoad()
         setupButtons()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         presentOnboarding()
@@ -66,7 +66,7 @@ final class NewPrescriptionViewController: UIViewController {
             }
         }
     }
-    
+
     private func presentOnboarding() {
         if !UserDefaultsManager.shared.hasSeenOnboarding() {
             onboardingView.presentOnboarding(

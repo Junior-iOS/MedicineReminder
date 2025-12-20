@@ -10,4 +10,5 @@ import Foundation
 struct User: Codable {
     let email: String
     let isUserLoggedIn: Bool
+    let hasFaceID: Bool
 }

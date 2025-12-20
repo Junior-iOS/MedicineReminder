@@ -5,8 +5,8 @@
 //  Created by NJ Development on 25/09/25.
 //
 
-import UIKit
 import OnboardingKit
+import UIKit
 
 final class SplashView: UIView {
     private lazy var logoView: UIImageView = {

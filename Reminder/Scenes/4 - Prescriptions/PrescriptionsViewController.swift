@@ -30,6 +30,7 @@ final class PrescriptionsViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupTableView()
+        bindViewModel()
     }
 
     init(prescriptionView: PrescriptionsView, flowDelegate: PrescriptionsFlowDelegate) {
@@ -50,10 +51,17 @@ final class PrescriptionsViewController: UIViewController {
         prescriptionView.tableView.delegate = self
         prescriptionView.tableView.dataSource = self
     }
+    
+    private func bindViewModel() {
+        viewModel.onDataChanged = { [weak self] in
+            DispatchQueue.main.async {
+                self?.prescriptionView.tableView.reloadData()
+            }
+        }
+    }
 
     private func loadData() {
         viewModel.fetchData()
-        prescriptionView.tableView.reloadData()
     }
 }
 
@@ -84,19 +92,10 @@ extension PrescriptionsViewController: UITableViewDelegate, UITableViewDataSourc
         let prescription = viewModel.prescriptions[indexPath.section]
         cell.configure(with: prescription)
         cell.onDelete = { [weak self] in
-            guard let self else { return }
+            guard let self = self else { return }
 
             if let currentIndexPath = tableView.indexPath(for: cell) {
-                if currentIndexPath.section < viewModel.prescriptions.count {
-                    let prescription = viewModel.prescriptions[currentIndexPath.section]
-                    if let id = prescription.id {
-                        self.viewModel.deletePrescription(by: id)
-                        self.viewModel.prescriptions.remove(at: currentIndexPath.section)
-                        tableView.deleteSections(IndexSet(integer: currentIndexPath.section), with: .automatic)
-                    }
-                }
-            } else {
-                print("Index out of Range")
+                self.viewModel.deletePrescription(at: currentIndexPath.section)
             }
         }
 

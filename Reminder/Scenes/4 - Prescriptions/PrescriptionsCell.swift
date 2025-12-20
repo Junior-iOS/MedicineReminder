@@ -5,8 +5,8 @@
 //  Created by NJ Development on 09/12/25.
 //
 
-import UIKit
 import OnboardingKit
+import UIKit
 
 final class PrescriptionsCell: UITableViewCell {
     var onDelete: (() -> Void)?

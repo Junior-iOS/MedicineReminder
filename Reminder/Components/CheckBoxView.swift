@@ -5,8 +5,8 @@
 //  Created by NJ Development on 22/10/25.
 //
 
-import UIKit
 import OnboardingKit
+import UIKit
 
 final class CheckBoxView: UIView {
     private lazy var titleLabel: UILabel = {
@@ -17,7 +17,7 @@ final class CheckBoxView: UIView {
         label.isUserInteractionEnabled = true
         return label
     }()
-    
+
     private(set) lazy var checkBoxButton: ToggleCheckBox = {
         let checkbox = ToggleCheckBox()
         checkbox.translatesAutoresizingMaskIntoConstraints = false
@@ -47,12 +47,12 @@ final class CheckBoxView: UIView {
         setupConstraints()
         setupGesture()
     }
-    
+
     private func setupGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTitleLabelTap))
         titleLabel.addGestureRecognizer(tap)
     }
-    
+
     @objc private func handleTitleLabelTap() {
         checkBoxButton.sendActions(for: .touchUpInside)
     }
