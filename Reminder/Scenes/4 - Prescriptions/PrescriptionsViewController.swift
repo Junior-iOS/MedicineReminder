@@ -51,7 +51,7 @@ final class PrescriptionsViewController: UIViewController {
         prescriptionView.tableView.delegate = self
         prescriptionView.tableView.dataSource = self
     }
-    
+
     private func bindViewModel() {
         viewModel.onDataChanged = { [weak self] in
             DispatchQueue.main.async {
@@ -92,7 +92,7 @@ extension PrescriptionsViewController: UITableViewDelegate, UITableViewDataSourc
         let prescription = viewModel.prescriptions[indexPath.section]
         cell.configure(with: prescription)
         cell.onDelete = { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
 
             if let currentIndexPath = tableView.indexPath(for: cell) {
                 self.viewModel.deletePrescription(at: currentIndexPath.section)

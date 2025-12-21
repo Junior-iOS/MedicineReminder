@@ -1,0 +1,7 @@
+"auth.invalid_email" = "E-mail inválido. Verifique o endereço e tente novamente.";
+"auth.user_disabled" = "Esta conta está desativada.";
+"auth.user_not_found" = "Usuário não encontrado.";
+"auth.wrong_password" = "Senha incorreta.";
+"auth.invalid_credential" = "Credencial inválida. Tente novamente.";
+"auth.operation_not_allowed" = "Operação não permitida. Verifique o método de login no Firebase.";
+"auth.network_error" = "Falha de rede. Verifique sua conexão.";

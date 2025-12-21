@@ -1,0 +1,7 @@
+"auth.invalid_email" = "Invalid email. Please check the address and try again.";
+"auth.user_disabled" = "This account is disabled.";
+"auth.user_not_found" = "User not found.";
+"auth.wrong_password" = "Incorrect password.";
+"auth.invalid_credential" = "Invalid credential. Please try again.";
+"auth.operation_not_allowed" = "Operation not allowed. Check your Firebase sign-in method.";
+"auth.network_error" = "Network error. Please check your connection.";

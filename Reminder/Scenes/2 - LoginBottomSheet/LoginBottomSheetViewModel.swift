@@ -20,18 +20,45 @@ final class LoginBottomSheetViewModel: LoginbottomSheetViewModelProtocol {
 
     func authenticate(user: String, password: String) {
         if isValidEmail(user) {
-            print("User: \(user) - Password: \(password)")
+            print("Attempting sign in for user: \(user)")
             Auth.auth().signIn(withEmail: user, password: password) { (_: AuthDataResult?, error: Error?) in
-                if let error {
-                    print("Authentication failed: \(error.localizedDescription)")
-                    self.errorResult?(error.localizedDescription)
+                if let error = error as NSError? {
+                    let authCode = AuthErrorCode(_bridgedNSError: error)
+                    let message: String
+                    switch authCode?.code {
+                    case .invalidEmail:
+                        message = NSLocalizedString("auth.invalid_email", comment: "Invalid email")
+
+                    case .userDisabled:
+                        message = NSLocalizedString("auth.user_disabled", comment: "User disabled")
+
+                    case .userNotFound:
+                        message = NSLocalizedString("auth.user_not_found", comment: "User not found")
+
+                    case .wrongPassword:
+                        message = NSLocalizedString("auth.wrong_password", comment: "Wrong password")
+
+                    case .invalidCredential:
+                        message = NSLocalizedString("auth.invalid_credential", comment: "Invalid credential")
+
+                    case .operationNotAllowed:
+                        message = NSLocalizedString("auth.operation_not_allowed", comment: "Operation not allowed")
+
+                    case .networkError:
+                        message = NSLocalizedString("auth.network_error", comment: "Network error")
+
+                    default:
+                        message = error.localizedDescription
+                    }
+                    print("Authentication failed (code: \(error.code)): \(message) | info: \(error.userInfo)")
+                    self.errorResult?(message)
                 } else {
+                    print("User authenticated successfully: \(user)")
                     self.successResult?(user)
-                    print("User authenticated successfully")
                 }
             }
         } else {
-            print("Invalid email")
+            print(NSLocalizedString("auth.invalid_email", comment: "Invalid email"))
         }
     }
 

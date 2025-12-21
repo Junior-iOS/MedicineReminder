@@ -5,6 +5,7 @@
 //  Created by NJ Development on 25/09/25.
 //
 
+import LocalAuthentication
 import UIKit
 
 protocol SplashFlowDelegate: AnyObject {
@@ -14,6 +15,7 @@ protocol SplashFlowDelegate: AnyObject {
 
 final class SplashViewController: UIViewController {
     private let splashView: SplashView
+    private let viewModel = SplashViewModel()
     weak var splashDelegate: SplashFlowDelegate?
 
     override func loadView() {
@@ -51,15 +53,39 @@ final class SplashViewController: UIViewController {
     }
 
     private func checkNavigationFlow() {
-        if let user = UserDefaultsManager.shared.loadUser(), user.isUserLoggedIn {
-            user.hasFaceID ? authenticateFaceID() : self.splashDelegate?.navigateToHome()
-        } else {
+        let flow = viewModel.checkNavigationFlow()
+        switch flow {
+        case .login:
             showLoginBottomSheet()
+
+        case .home:
+            self.splashDelegate?.navigateToHome()
+
+        case .faceID:
+            authenticateFaceID()
         }
     }
-    
+
     private func authenticateFaceID() {
-        
+        let context = LAContext()
+        var authError: NSError?
+
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
+            let reason = "Authenticate to access your account"
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
+                DispatchQueue.main.async {
+                    if success {
+                        self.splashDelegate?.navigateToHome()
+                    } else {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+            }
+        } else {
+            self.showLoginBottomSheet()
+        }
+
+        self.splashDelegate?.navigateToHome()
     }
 }
 
@@ -83,58 +109,58 @@ extension SplashViewController {
 // import UIKit
 //
 // final class AmountInputViewController: UIViewController {
-//    
+//
 //    private let textField = UITextField()
 //    private var bubblesAccessory: AmountAccessoryView!
 //    private var doneAccessory: DoneAccessoryView!
-//    
+//
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
 //        view.backgroundColor = .systemBackground
-//        
+//
 //        textField.borderStyle = .roundedRect
 //        textField.placeholder = "Digite algo..."
 //        textField.translatesAutoresizingMaskIntoConstraints = false
 //        view.addSubview(textField)
-//        
+//
 //        NSLayoutConstraint.activate([
 //            textField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 //            textField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 //            textField.widthAnchor.constraint(equalToConstant: 250)
 //        ])
-//        
+//
 //        // Cria os dois accessory views
 //        bubblesAccessory = AmountAccessoryView(bubbles: [50, 100, 150, 200])
 //        bubblesAccessory.onBubbleTapped = { [weak self] value in
 //            print("Selecionado \(value)")
 //            self?.animateAccessoryTransition(showDone: true)
 //        }
-//        
+//
 //        doneAccessory = DoneAccessoryView()
 //        doneAccessory.onDoneTapped = { [weak self] in
 //            self?.animateAccessoryTransition(showDone: false)
 //            self?.textField.resignFirstResponder()
 //        }
-//        
+//
 //        // Define o primeiro accessory view antes do teclado abrir
 //        textField.inputAccessoryView = bubblesAccessory
 //    }
-//    
+//
 //    private func animateAccessoryTransition(showDone: Bool) {
 //        guard let window = view.window else { return }
-//        
+//
 //        let newAccessory = showDone ? doneAccessory! : bubblesAccessory!
 //        let oldAccessory = showDone ? bubblesAccessory! : doneAccessory!
-//        
+//
 //        // Pega o container real do teclado (janela especial)
 //        if let accessoryContainer = textField.inputAccessoryView?.superview {
 //            // Anima o "slide"
 //            newAccessory.transform = CGAffineTransform(translationX: 0, y: 60)
 //            newAccessory.alpha = 0
-//            
+//
 //            textField.inputAccessoryView = newAccessory
 //            textField.reloadInputViews()
-//            
+//
 //            UIView.animate(withDuration: 0.25, animations: {
 //                newAccessory.transform = .identity
 //                newAccessory.alpha = 1
@@ -150,25 +176,25 @@ extension SplashViewController {
 //
 // final class AmountAccessoryView: UIView {
 //    var onBubbleTapped: ((UInt) -> Void)?
-//    
+//
 //    init(bubbles: [UInt]) {
 //        super.init(frame: .init(x: 0, y: 0, width: 0, height: 50))
 //        backgroundColor = .secondarySystemBackground
 //        setupStack(bubbles)
 //    }
-//    
+//
 //    required init?(coder: NSCoder) { fatalError() }
-//    
+//
 //    private func setupStack(_ bubbles: [UInt]) {
 //        let scroll = UIScrollView()
 //        scroll.showsHorizontalScrollIndicator = false
-//        
+//
 //        let stack = UIStackView()
 //        stack.axis = .horizontal
 //        stack.spacing = 12
 //        stack.alignment = .center
 //        stack.distribution = .equalSpacing
-//        
+//
 //        for value in bubbles {
 //            let button = UIButton(type: .system)
 //            button.setTitle("\(value)", for: .normal)
@@ -181,19 +207,19 @@ extension SplashViewController {
 //            }, for: .touchUpInside)
 //            stack.addArrangedSubview(button)
 //        }
-//        
+//
 //        scroll.addSubview(stack)
 //        addSubview(scroll)
-//        
+//
 //        scroll.translatesAutoresizingMaskIntoConstraints = false
 //        stack.translatesAutoresizingMaskIntoConstraints = false
-//        
+//
 //        NSLayoutConstraint.activate([
 //            scroll.leadingAnchor.constraint(equalTo: leadingAnchor),
 //            scroll.trailingAnchor.constraint(equalTo: trailingAnchor),
 //            scroll.topAnchor.constraint(equalTo: topAnchor),
 //            scroll.bottomAnchor.constraint(equalTo: bottomAnchor),
-//            
+//
 //            stack.leadingAnchor.constraint(equalTo: scroll.leadingAnchor, constant: 12),
 //            stack.trailingAnchor.constraint(equalTo: scroll.trailingAnchor, constant: -12),
 //            stack.topAnchor.constraint(equalTo: scroll.topAnchor, constant: 8),
@@ -205,18 +231,18 @@ extension SplashViewController {
 //
 // final class DoneAccessoryView: UIView {
 //    var onDoneTapped: (() -> Void)?
-//    
+//
 //    init() {
 //        super.init(frame: .init(x: 0, y: 0, width: 0, height: 50))
 //        backgroundColor = .secondarySystemBackground
-//        
+//
 //        let button = UIButton(type: .system)
 //        button.setTitle("Done", for: .normal)
 //        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
 //        button.addAction(UIAction { [weak self] _ in
 //            self?.onDoneTapped?()
 //        }, for: .touchUpInside)
-//        
+//
 //        addSubview(button)
 //        button.translatesAutoresizingMaskIntoConstraints = false
 //        NSLayoutConstraint.activate([
@@ -225,14 +251,14 @@ extension SplashViewController {
 //            heightAnchor.constraint(equalToConstant: 50)
 //        ])
 //    }
-//    
+//
 //    required init?(coder: NSCoder) { fatalError() }
 // }
 //
 // import UIKit
 //
 // final class ViewController: UIViewController, UITextFieldDelegate {
-//    
+//
 //    private let amountTextField: UITextField = {
 //        let textField = UITextField()
 //        textField.placeholder = "Digite um valor"
@@ -240,36 +266,36 @@ extension SplashViewController {
 //        textField.keyboardType = .numberPad
 //        return textField
 //    }()
-//    
+//
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
 //        view.backgroundColor = .systemBackground
-//        
+//
 //        amountTextField.delegate = self
 //        view.addSubview(amountTextField)
-//        
+//
 //        amountTextField.translatesAutoresizingMaskIntoConstraints = false
 //        NSLayoutConstraint.activate([
 //            amountTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 //            amountTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 //            amountTextField.widthAnchor.constraint(equalToConstant: 200)
 //        ])
-//        
+//
 //        // ✅ Adiciona o botão Done acima do teclado
 //        addDoneButtonToKeyboard()
 //    }
-//    
+//
 //    private func addDoneButtonToKeyboard() {
 //        let toolbar = UIToolbar()
 //        toolbar.sizeToFit()
-//        
+//
 //        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 //        let done = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneTapped))
-//        
+//
 //        toolbar.items = [flex, done]
 //        amountTextField.inputAccessoryView = toolbar
 //    }
-//    
+//
 //    @objc private func doneTapped() {
 //        view.endEditing(true)
 //    }

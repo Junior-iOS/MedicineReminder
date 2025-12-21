@@ -5,6 +5,7 @@
 //  Created by NJ Development on 25/09/25.
 //
 
+import LocalAuthentication
 import UIKit
 
 protocol LoginBottomSheetFlowDelegate: AnyObject {
@@ -75,8 +76,7 @@ final class LoginBottomSheetViewController: UIViewController {
         let alert = UIAlertController(title: "Salvar Acesso", message: "Deseja salvar seu acesso?", preferredStyle: .alert)
         let saveAction = UIAlertAction(title: "Salvar", style: .default) { _ in
             let user = User(email: user, isUserLoggedIn: true, hasFaceID: false)
-            UserDefaultsManager.shared.save(user)
-            self.delegate?.navigateToHome()
+            self.enableFaceID(with: user.email)
         }
 
         let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel) { _ in
@@ -164,6 +164,42 @@ final class LoginBottomSheetViewController: UIViewController {
 
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
+        }
+    }
+
+    // MARK: - FaceID
+    private func enableFaceID(with email: String) {
+        let context = LAContext()
+        var error: NSError?
+
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            let reason = "Log in to your account, \(email)"
+
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
+                DispatchQueue.main.async {
+                    if success {
+                        let alert = UIAlertController(title: "Habilitar FaceID", message: "Deseja habilitar o login por biometria?", preferredStyle: .alert)
+                        let yes = UIAlertAction(title: "Sim", style: .default) { _ in
+                            let user = User(email: email, isUserLoggedIn: true, hasFaceID: true)
+                            UserDefaultsManager().save(user)
+                            self.delegate?.navigateToHome()
+                        }
+                        let no = UIAlertAction(title: "Não", style: .cancel) { _ in
+                            let user = User(email: email, isUserLoggedIn: false, hasFaceID: false)
+                            UserDefaultsManager().save(user)
+                            self.delegate?.navigateToHome()
+                        }
+
+                        alert.addAction(yes)
+                        alert.addAction(no)
+                        self.present(alert, animated: true)
+                    }
+                }
+            }
+        } else {
+            let user = User(email: email, isUserLoggedIn: true, hasFaceID: false)
+            UserDefaultsManager().save(user)
+            self.delegate?.navigateToHome()
         }
     }
 }

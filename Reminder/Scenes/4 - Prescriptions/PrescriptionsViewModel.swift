@@ -36,7 +36,7 @@ final class PrescriptionsViewModel: PrescriptionsViewModelProtocol {
         prescriptions.removeAll { $0.id == id }
         onDataChanged?()
     }
-    
+
     func deletePrescription(at index: Int) {
         guard index >= 0 && index < prescriptions.count else { return }
         let prescription = prescriptions[index]
