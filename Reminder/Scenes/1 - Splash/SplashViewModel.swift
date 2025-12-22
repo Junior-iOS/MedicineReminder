@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import LocalAuthentication
 
 enum SplashNavigationFlow {
     case login
@@ -13,9 +14,16 @@ enum SplashNavigationFlow {
     case faceID
 }
 
+enum FaceIDAuthenticationResult {
+    case success
+    case failure
+    case notAvailable
+}
+
 protocol SplashViewModelProtocol {
     func checkNavigationFlow() -> SplashNavigationFlow
     func shouldAuthenticateWithFaceID() -> Bool
+    func authenticateWithFaceID(completion: @escaping (FaceIDAuthenticationResult) -> Void)
 }
 
 final class SplashViewModel: SplashViewModelProtocol {
@@ -40,5 +48,22 @@ final class SplashViewModel: SplashViewModelProtocol {
     func shouldAuthenticateWithFaceID() -> Bool {
         guard let user = userDefaultsManager.loadUser() else { return false }
         return user.isUserLoggedIn && user.hasFaceID
+    }
+    
+    func authenticateWithFaceID(completion: @escaping (FaceIDAuthenticationResult) -> Void) {
+        let context = LAContext()
+        var authError: NSError?
+
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) else {
+            completion(.notAvailable)
+            return
+        }
+
+        let reason = "Authenticate to access your account"
+        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
+            DispatchQueue.main.async {
+                completion(success ? .success : .failure)
+            }
+        }
     }
 }

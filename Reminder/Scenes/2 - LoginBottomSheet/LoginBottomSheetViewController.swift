@@ -5,7 +5,6 @@
 //  Created by NJ Development on 25/09/25.
 //
 
-import LocalAuthentication
 import UIKit
 
 protocol LoginBottomSheetFlowDelegate: AnyObject {
@@ -73,19 +72,31 @@ final class LoginBottomSheetViewController: UIViewController {
     }
 
     private func presentSavedLoginAlert(user: String) {
-        let alert = UIAlertController(title: "Salvar Acesso", message: "Deseja salvar seu acesso?", preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "Salvar", style: .default) { _ in
-            let user = User(email: user, isUserLoggedIn: true, hasFaceID: false)
-            self.enableFaceID(with: user.email)
+        let alert = UIAlertController(
+            title: "Salvar Acesso",
+            message: "Deseja salvar seu acesso?",
+            preferredStyle: .alert
+        )
+
+        let saveAction = UIAlertAction(title: "Salvar", style: .default) { [weak self] _ in
+            guard let self else { return }
+
+            if self.viewModel.checkFaceIDAvailability() {
+                self.enableFaceID(with: user)
+            } else {
+                self.viewModel.saveUser(email: user, isUserLoggedIn: true, hasFaceID: false)
+                self.delegate?.navigateToHome()
+            }
         }
 
-        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel) { _ in
-            self.delegate?.navigateToHome()
+        let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel) { [weak self] _ in
+            self?.viewModel.saveUser(email: user, isUserLoggedIn: true, hasFaceID: false)
+            self?.delegate?.navigateToHome()
         }
 
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true)
     }
 
     private func presentErrorAlert(message: String) {
@@ -169,38 +180,33 @@ final class LoginBottomSheetViewController: UIViewController {
 
     // MARK: - FaceID
     private func enableFaceID(with email: String) {
-        let context = LAContext()
-        var error: NSError?
-
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            let reason = "Log in to your account, \(email)"
-
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
-                DispatchQueue.main.async {
-                    if success {
-                        let alert = UIAlertController(title: "Habilitar FaceID", message: "Deseja habilitar o login por biometria?", preferredStyle: .alert)
-                        let yes = UIAlertAction(title: "Sim", style: .default) { _ in
-                            let user = User(email: email, isUserLoggedIn: true, hasFaceID: true)
-                            UserDefaultsManager().save(user)
-                            self.delegate?.navigateToHome()
-                        }
-                        let no = UIAlertAction(title: "Não", style: .cancel) { _ in
-                            let user = User(email: email, isUserLoggedIn: false, hasFaceID: false)
-                            UserDefaultsManager().save(user)
-                            self.delegate?.navigateToHome()
-                        }
-
-                        alert.addAction(yes)
-                        alert.addAction(no)
-                        self.present(alert, animated: true)
-                    }
-                }
+        viewModel.enableFaceID(with: email) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                self.presentFaceIDEnableAlert(email: email)
+            case .failure, .notAvailable:
+                self.viewModel.saveUser(email: email, isUserLoggedIn: true, hasFaceID: false)
+                self.delegate?.navigateToHome()
             }
-        } else {
-            let user = User(email: email, isUserLoggedIn: true, hasFaceID: false)
-            UserDefaultsManager().save(user)
-            self.delegate?.navigateToHome()
         }
+    }
+    
+    private func presentFaceIDEnableAlert(email: String) {
+        let alert = UIAlertController(title: "Habilitar FaceID", message: "Deseja habilitar o login por biometria?", preferredStyle: .alert)
+        let yes = UIAlertAction(title: "Sim", style: .default) { [weak self] _ in
+            self?.viewModel.saveUser(email: email, isUserLoggedIn: true, hasFaceID: true)
+            self?.delegate?.navigateToHome()
+        }
+        let no = UIAlertAction(title: "Não", style: .cancel) { [weak self] _ in
+            self?.viewModel.saveUser(email: email, isUserLoggedIn: true, hasFaceID: false)
+            self?.delegate?.navigateToHome()
+        }
+
+        alert.addAction(yes)
+        alert.addAction(no)
+        self.present(alert, animated: true)
     }
 }
 

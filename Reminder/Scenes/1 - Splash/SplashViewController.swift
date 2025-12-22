@@ -5,7 +5,6 @@
 //  Created by NJ Development on 25/09/25.
 //
 
-import LocalAuthentication
 import UIKit
 
 protocol SplashFlowDelegate: AnyObject {
@@ -67,25 +66,16 @@ final class SplashViewController: UIViewController {
     }
 
     private func authenticateFaceID() {
-        let context = LAContext()
-        var authError: NSError?
-
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-            let reason = "Authenticate to access your account"
-            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
-                DispatchQueue.main.async {
-                    if success {
-                        self.splashDelegate?.navigateToHome()
-                    } else {
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                }
+        viewModel.authenticateWithFaceID { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                self.splashDelegate?.navigateToHome()
+            case .failure, .notAvailable:
+                self.showLoginBottomSheet()
             }
-        } else {
-            self.showLoginBottomSheet()
         }
-
-        self.splashDelegate?.navigateToHome()
     }
 }
 

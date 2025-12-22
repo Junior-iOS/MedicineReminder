@@ -7,9 +7,19 @@
 
 import FirebaseAuth
 import Foundation
+import LocalAuthentication
+
+enum FaceIDEnableResult {
+    case success
+    case failure
+    case notAvailable
+}
 
 protocol LoginbottomSheetViewModelProtocol {
     func authenticate(user: String, password: String)
+    func saveUser(email: String, isUserLoggedIn: Bool, hasFaceID: Bool)
+    func checkFaceIDAvailability() -> Bool
+    func enableFaceID(with email: String, completion: @escaping (FaceIDEnableResult) -> Void)
     var successResult: ((String) -> Void)? { get set }
     var errorResult: ((String) -> Void)? { get set }
 }
@@ -17,6 +27,12 @@ protocol LoginbottomSheetViewModelProtocol {
 final class LoginBottomSheetViewModel: LoginbottomSheetViewModelProtocol {
     var successResult: ((String) -> Void)?
     var errorResult: ((String) -> Void)?
+    
+    private let userDefaultsManager: UserDefaultsManager
+    
+    init(userDefaultsManager: UserDefaultsManager = .shared) {
+        self.userDefaultsManager = userDefaultsManager
+    }
 
     func authenticate(user: String, password: String) {
         if isValidEmail(user) {
@@ -59,6 +75,36 @@ final class LoginBottomSheetViewModel: LoginbottomSheetViewModelProtocol {
             }
         } else {
             print(NSLocalizedString("auth.invalid_email", comment: "Invalid email"))
+        }
+    }
+    
+    func saveUser(email: String, isUserLoggedIn: Bool, hasFaceID: Bool) {
+        let user = User(email: email, isUserLoggedIn: isUserLoggedIn, hasFaceID: hasFaceID)
+        userDefaultsManager.save(user)
+    }
+    
+    func checkFaceIDAvailability() -> Bool {
+        let context = LAContext()
+        var error: NSError?
+        return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+    }
+    
+    func enableFaceID(with email: String, completion: @escaping (FaceIDEnableResult) -> Void) {
+        let context = LAContext()
+        var error: NSError?
+
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+            DispatchQueue.main.async {
+                completion(.notAvailable)
+            }
+            return
+        }
+
+        let reason = "Log in to your account, \(email)"
+        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, _ in
+            DispatchQueue.main.async {
+                completion(success ? .success : .failure)
+            }
         }
     }
 
